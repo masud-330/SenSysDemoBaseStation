@@ -81,7 +81,7 @@ public class UserPanel extends JPanel {
                     fillers[i]=new JLabel("                                                                             ");;
                 }
                 int textBoxWidth = (int)(0.8*fixedSize.width);
-                int textBoxHeight = (int)(((float)10/30)*fixedSize.height);
+                int textBoxHeight = (int)(((float)0.28)*fixedSize.height);
                 
                 
                 /* for add page*/
@@ -254,12 +254,15 @@ public class UserPanel extends JPanel {
                 logs.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
                 JButton newexp=new JButton("            Reset Parameters            ");
-                JButton addexp=new JButton("               Modify \u03B4               ");
-                JButton gotocooc=new JButton("           Modify \u0194           ");
-                JButton gotophen=new JButton("          Modify Phenomena           ");
+                //JButton addexp=new JButton("                Modify \u03B4                ");
+                //JButton gotocooc=new JButton("           Modify \u0194           ");
+                JButton addexp=new JButton("           Edit Energy T-hold, mA (\u03B4)           ");
+                JButton gotocooc=new JButton("           Edit Time-Period, S (\u0194)           ");
+                JButton gotophen=new JButton("          Modify Phenomena Type          ");
                 newexp.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 addexp.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 gotocooc.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                gotophen.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 //hopLabel = new JLabel
                 
                 //setting button locations properly
