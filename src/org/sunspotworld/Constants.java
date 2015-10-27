@@ -33,8 +33,6 @@ public class Constants {
     
     //public static final int TOTAL_MOTES = 20;
     public static final int TOTAL_TELOS = 16;
-    public static final double MAX_X = 200;
-    public static final double MAX_Y = 200;
     public static Hashtable nodeLocations = new Hashtable();
     
     //////////////////////******************************************
@@ -43,7 +41,9 @@ public class Constants {
     public static final short AREA_WIDTH= 350;  //area width
     public static final short AREA_HEIGHT= 350;  //area size
     public static final short GAP_HEIGHT= AREA_HEIGHT/7;  //area gap
-     public static final short GAP_WIDTH= AREA_WIDTH/7;  //area gap
+    public static final short GAP_WIDTH= AREA_WIDTH/7;  //area gap
+    public static final short MAX_X = 350;  //For GUI
+    public static final short MAX_Y = 350;  //For GUI
     
     public static final short TOTAL_MOTES = 36;
     
@@ -110,6 +110,13 @@ public class Constants {
         int indh = id/6;
         return new Point((short)(offsetw+(indw*offsetw)),(short)(offseth+(indh*offseth)));
     }
+    
+    public static boolean isTelos(short id){
+        if(id==7 || id==10 || id==25 || id==28){
+            return false;
+        }
+        return true;
+    } 
     
     
     ///////////////////END OF OUR PART///////////////////////////////////////////////////////////////////////

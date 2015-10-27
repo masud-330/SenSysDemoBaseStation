@@ -46,8 +46,8 @@ public class ShapePanel extends JPanel {
 		setLayout(new BorderLayout());
                 
                 //initial multipliers
-                X_multiplier = d.width / Constants.MAX_X;
-                Y_multiplier = d.height / Constants.MAX_Y;
+                X_multiplier = d.width / (double) Constants.MAX_X;
+                Y_multiplier = d.height / (double) Constants.MAX_Y;
                 
 		addMouseListener(new MouseAdapter() {
 			/*@Override
@@ -96,61 +96,19 @@ public class ShapePanel extends JPanel {
 		int w = getWidth();
 		int h = getHeight();
                 //initial multipliers
-                X_multiplier = w / Constants.MAX_X;
-                Y_multiplier = h  / Constants.MAX_Y;
-                double radius = (0.035*w)+(0.035*h);
-                boolean pointStats[] = new boolean[Constants.TOTAL_MOTES];
+                X_multiplier = w / (double) Constants.MAX_X;
+                Y_multiplier = h  / (double) Constants.MAX_Y;
+
+                double radius = (0.023*w)+(0.023*h);
                 
                 gg.setStroke(new BasicStroke(3));
-                
-                for(int i=0; i<SunSpotHostApplication.positiveShapes.size(); i++){
-                    ShapeOccurrence occur = SunSpotHostApplication.positiveShapes.get(i);
-                    int j=0;
-                        for(;j<SunSpotHostApplication.currentPredicates.size();j++)
-                        {
-                                           
-                            if(SunSpotHostApplication.currentPredicates.get(j).threshold== occur.predicate.threshold
-                                                        &&SunSpotHostApplication.currentPredicates.get(j).area== occur.predicate.area
-                                                        &&SunSpotHostApplication.currentPredicates.get(j).phenomenonLayer== occur.predicate.phenomenonLayer)
-                            {
-                                    break;
-                            }
-                        }
-                        
-                    Color color = SunSpotHostApplication.colorlib[j];
-                    Color colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
-                    gg.setPaint(colTransparent);
-                        
-                    Vector<Point> points = occur.points;
-                    int x[]=new int[points.size()-1];
-                    int y[]=new int[points.size()-1];
-                    for(int k=0; k<points.size()-1;k++){
-                        x[k]=(int)((points.get(k).x * X_multiplier));
-                        y[k]=(int)((points.get(k).y * Y_multiplier));
-                        int id = Constants.locationToID(new Point(points.get(k).x, points.get(k).y));
-                        pointStats[id-1]=true;
-                        if(id<=Constants.TOTAL_TELOS){
-                            gg.fillOval((int)(x[k]-(radius/2)), (int)(y[k]-(radius/2)),(int)(radius), (int)(radius));
-                        }
-                        else{
-                            gg.fillRect((int)(x[k]-(radius/2)), (int)(y[k]-(radius/2)),(int)(radius), (int)(radius));
-                        }
-                    }
-                    
-                    gg.fillPolygon(x, y, x.length);
-                }
-                 gg.setPaint(new Color(0,0,0,255));
+                gg.setPaint(new Color(0,0,0,255));
                 for(int i=0; i<Constants.TOTAL_MOTES; i++){
-                    if(pointStats[i]==true){
-                        continue;
-                    }
-                    Point p = Constants.idToLocation(i+1);
-                    //System.out.println(p.x+" "+p.y);
+                    Point p = Constants.getNodeLocation((short)i);
                     int x = (int)(p.x * X_multiplier);
                     int y = (int)(p.y * Y_multiplier);
-                    //System.out.println(p.x+" "+p.y);
                     
-                    if(i<Constants.TOTAL_TELOS){
+                    if(Constants.isTelos((short)i)){
                         gg.drawOval((int)(x-(radius/2)), (int)(y-(radius/2)),(int)radius, (int)radius);
                     }
                     else{

@@ -87,7 +87,7 @@ public class UserPanel extends JPanel {
                 /* for add page*/
                 
                 int locx=10, locy=10;
-                JButton add_pre = new JButton("           Add Shape Predicate           ");
+                JButton add_pre = new JButton("           Send \u03B4           ");
                 add_pre.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 add_pre.setSize(300, 35);
 
@@ -157,7 +157,7 @@ public class UserPanel extends JPanel {
                 add.add(add_pre);
                 
                 /* for occurence panel*/
-                JButton add_cooc = new JButton("       Add Co-occurrence Predicate       ");
+                JButton add_cooc = new JButton("       Send \u0194      ");
                 add_cooc.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 add_cooc.setSize(300, 35);
                 
@@ -224,7 +224,7 @@ public class UserPanel extends JPanel {
                 areaScrollPane.setVerticalScrollBarPolicy(
                         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
                 areaScrollPane.setPreferredSize(new Dimension(textBoxWidth, (int)(textBoxHeight*0.75)));
-                TitledBorder titleBorder = BorderFactory.createTitledBorder("Predicate");
+                TitledBorder titleBorder = BorderFactory.createTitledBorder("Parameters");
                 titleBorder.setTitleFont(new Font("SansSerif", Font.BOLD, 15));
                 areaScrollPane.setBorder(
                         BorderFactory.createCompoundBorder(
@@ -253,9 +253,10 @@ public class UserPanel extends JPanel {
                                 logs_scroll.getBorder()));
                 logs.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
-                JButton newexp=new JButton("            Reset Predicates             ");
-                JButton addexp=new JButton("           Add Shape Predicate           ");
-                JButton gotocooc=new JButton("       Add Co-occurrence Predicate       ");
+                JButton newexp=new JButton("            Reset Parameters            ");
+                JButton addexp=new JButton("               Modify \u03B4               ");
+                JButton gotocooc=new JButton("           Modify \u0194           ");
+                JButton gotophen=new JButton("          Modify Phenomena           ");
                 newexp.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 addexp.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 gotocooc.setFont(new Font("SansSerif", Font.PLAIN, 15));
@@ -270,6 +271,8 @@ public class UserPanel extends JPanel {
                 controlP.add(fillers[2]);
                 controlP.add(gotocooc);
                 controlP.add(fillers[3]);
+                controlP.add(gotophen);
+                controlP.add(fillers[4]);
                 controlP.add(logs_scroll);
                 
                 cards.add(controlP,second);
