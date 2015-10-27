@@ -296,6 +296,8 @@ public class StartPanel extends javax.swing.JPanel {
                 int energy_temp=0;
                 int time_temp=0;
                 int layerchoice;
+                
+                //testing git changes
                 if(jtfEnergy.getText().equals(""))
                 {
                     flag=true;
