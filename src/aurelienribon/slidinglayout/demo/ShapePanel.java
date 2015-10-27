@@ -46,8 +46,8 @@ public class ShapePanel extends JPanel {
 		setLayout(new BorderLayout());
                 
                 //initial multipliers
-                X_multiplier = d.width / Constants.MAX_X;
-                Y_multiplier = d.height / Constants.MAX_Y;
+                X_multiplier = d.width / Constants.AREA_WIDTH;
+                Y_multiplier = d.height / Constants.AREA_HEIGHT;
                 
 		addMouseListener(new MouseAdapter() {
 			/*@Override
@@ -96,8 +96,8 @@ public class ShapePanel extends JPanel {
 		int w = getWidth();
 		int h = getHeight();
                 //initial multipliers
-                X_multiplier = w / Constants.MAX_X;
-                Y_multiplier = h  / Constants.MAX_Y;
+                X_multiplier = w / Constants.AREA_WIDTH;
+                Y_multiplier = h  / Constants.AREA_HEIGHT;
                 double radius = (0.035*w)+(0.035*h);
                 boolean pointStats[] = new boolean[Constants.TOTAL_MOTES];
                 
