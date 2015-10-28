@@ -30,11 +30,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import org.sunspotworld.CoOccurencePredicate;
 import org.sunspotworld.Constants;
-import org.sunspotworld.ShapePredicate;
 import org.sunspotworld.SunSpotHostApplication;
-import static org.sunspotworld.SunSpotHostApplication.Colorname;
 import static org.sunspotworld.SunSpotHostApplication.layer_type;
 import static org.sunspotworld.SunSpotHostApplication.sendMessage;
 import javax.swing.text.DefaultCaret;
@@ -81,13 +78,13 @@ public class UserPanel extends JPanel {
                     fillers[i]=new JLabel("                                                                             ");;
                 }
                 int textBoxWidth = (int)(0.8*fixedSize.width);
-                int textBoxHeight = (int)(((float)10/30)*fixedSize.height);
+                int textBoxHeight = (int)(((float)0.28)*fixedSize.height);
                 
                 
                 /* for add page*/
                 
                 int locx=10, locy=10;
-                JButton add_pre = new JButton("           Add Shape Predicate           ");
+                JButton add_pre = new JButton("           Send \u03B4           ");
                 add_pre.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 add_pre.setSize(300, 35);
 
@@ -157,7 +154,7 @@ public class UserPanel extends JPanel {
                 add.add(add_pre);
                 
                 /* for occurence panel*/
-                JButton add_cooc = new JButton("       Add Co-occurrence Predicate       ");
+                JButton add_cooc = new JButton("       Send \u0194      ");
                 add_cooc.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 add_cooc.setSize(300, 35);
                 
@@ -224,7 +221,7 @@ public class UserPanel extends JPanel {
                 areaScrollPane.setVerticalScrollBarPolicy(
                         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
                 areaScrollPane.setPreferredSize(new Dimension(textBoxWidth, (int)(textBoxHeight*0.75)));
-                TitledBorder titleBorder = BorderFactory.createTitledBorder("Predicate");
+                TitledBorder titleBorder = BorderFactory.createTitledBorder("Parameters");
                 titleBorder.setTitleFont(new Font("SansSerif", Font.BOLD, 15));
                 areaScrollPane.setBorder(
                         BorderFactory.createCompoundBorder(
@@ -253,12 +250,16 @@ public class UserPanel extends JPanel {
                                 logs_scroll.getBorder()));
                 logs.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
-                JButton newexp=new JButton("            Reset Predicates             ");
-                JButton addexp=new JButton("           Add Shape Predicate           ");
-                JButton gotocooc=new JButton("       Add Co-occurrence Predicate       ");
+                JButton newexp=new JButton("            Reset Parameters            ");
+                //JButton addexp=new JButton("                Modify \u03B4                ");
+                //JButton gotocooc=new JButton("           Modify \u0194           ");
+                JButton addexp=new JButton("           Edit Energy T-hold, mA (\u03B4)           ");
+                JButton gotocooc=new JButton("           Edit Time-Period, S (\u0194)           ");
+                JButton gotophen=new JButton("          Modify Phenomena Type          ");
                 newexp.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 addexp.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 gotocooc.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                gotophen.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 //hopLabel = new JLabel
                 
                 //setting button locations properly
@@ -270,6 +271,8 @@ public class UserPanel extends JPanel {
                 controlP.add(fillers[2]);
                 controlP.add(gotocooc);
                 controlP.add(fillers[3]);
+                controlP.add(gotophen);
+                controlP.add(fillers[4]);
                 controlP.add(logs_scroll);
                 
                 cards.add(controlP,second);
@@ -343,19 +346,10 @@ public class UserPanel extends JPanel {
                 {
                     //System.out.print(thre_temp);
                     //System.out.print(area_temp);
-                    ShapePredicate temp=new ShapePredicate(area_temp,thre_temp,layer_add.getSelectedIndex());
                     System.out.println("area: "+area_temp+" threshold: "+thre_temp+" layer: "+layer_add.getSelectedIndex());
-                    SunSpotHostApplication.currentPredicates.add(temp);
                     //***************send temp out
-                    
-                            int[] arr = new int[Constants.VALUE_SIZE];
-                            arr[0]=temp.phenomenonLayer; arr[1]=temp.threshold;
-                            arr[2]=temp.area;
-                            arr[3]=Constants.TERMINATOR;
-                            //sendMessage(Constants.SPOT_NEW_PREDICATE,arr ,"0014.4F01.0000.7995" );
-                    
-                    String prenew=" Es"+Integer.toString((SunSpotHostApplication.currentPredicates.size()))+"("+Integer.toString(temp.threshold)
-                            +", "+Integer.toString(temp.area)+", "+SunSpotHostApplication.layer_type[layer_add.getSelectedIndex()]+", "+SunSpotHostApplication.Colorname[SunSpotHostApplication.currentPredicates.size()-1]+")\n"; 
+                           
+                    String prenew=" ";
 
                     predicate_show.append(prenew);
                     CardLayout cl = (CardLayout)(cards.getLayout());
@@ -424,19 +418,10 @@ public class UserPanel extends JPanel {
                 {
                     //System.out.print(thre_temp);
                     //System.out.print(area_temp);
-                    CoOccurencePredicate temp_cooc=new CoOccurencePredicate(SunSpotHostApplication.currentPredicates.get(occurence1.getSelectedIndex()),SunSpotHostApplication.currentPredicates.get(occurence2.getSelectedIndex()),distance_temp);
-                    SunSpotHostApplication.curCoOccPredicates.add(temp_cooc);
                     
                     //***************send temp out
-                    
-                            int[] arr = new int[Constants.VALUE_SIZE];
-                            arr[0]=temp_cooc.sp1.area; arr[1]=temp_cooc.sp1.threshold;arr[2]=temp_cooc.sp1.phenomenonLayer;
-                            arr[3]=temp_cooc.sp2.area; arr[4]=temp_cooc.sp2.threshold;arr[5]=temp_cooc.sp2.phenomenonLayer;
-                            arr[6]=temp_cooc.distance;
-                            arr[7]=Constants.TERMINATOR;
-                            //sendMessage(Constants.SPOT_NEW_COOC,arr ,"0014.4F01.0000.7995" );
-                    String prenew=" Cooc"+Integer.toString((SunSpotHostApplication.curCoOccPredicates.size()))+"(Es"+Integer.toString(occurence1.getSelectedIndex()+1)
-                            +", Es"+Integer.toString(occurence2.getSelectedIndex()+1)+", "+Integer.toString(distance_temp)+")\n";
+
+                    String prenew=" Put Something Good";
 
                     predicate_show.append(prenew);
                     CardLayout cl = (CardLayout)(cards.getLayout());
@@ -464,20 +449,12 @@ public class UserPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");
                 predicate_show.setText("");
-                SunSpotHostApplication.currentPredicates.clear();
-                SunSpotHostApplication.curCoOccPredicates.clear();
-                SunSpotHostApplication.positiveShapes.clear();
                 SunSpotHostApplication.BruteHC=0;
                 SunSpotHostApplication.OurHC=0;
                 SunSpotHostApplication.task.stop();
                 logs.setText("");
                 //clearing shape_receieve in reset click
 
-                        
-                  int[] arr = new int[Constants.VALUE_SIZE];
-                  //System.out.println(arr[5]);
-                  arr[0]=Constants.TERMINATOR;
-                  //SunSpotHostApplication.sendMessage(Constants.SPOT_RESET,arr ,"0014.4F01.0000.7995" );
                   SunSpotHostApplication.task.stop();
                   SunSpotHostApplication.frame.shapePanel.repaint();
                   
@@ -491,11 +468,6 @@ public class UserPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");
                 flag=false;
-                if(SunSpotHostApplication.currentPredicates.size()<=1)
-                {
-                    flag=true;
-                }
-
                 if(flag==true)
                 {
 
@@ -508,13 +480,6 @@ public class UserPanel extends JPanel {
                 }
                 if(flag==false)
                 {
-                    for(int i=0;i<SunSpotHostApplication.currentPredicates.size();i++)
-                    {
-                        String content= " Es"+Integer.toString(i+1)+"("+Double.toString(SunSpotHostApplication.currentPredicates.get(i).threshold)
-                                +", "+Double.toString(SunSpotHostApplication.currentPredicates.get(i).area)+", "+layer_type[SunSpotHostApplication.currentPredicates.get(i).phenomenonLayer]+")";
-                        occurence1.addItem(content);
-                        occurence2.addItem(content);
-                    }
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,forth);
                 }

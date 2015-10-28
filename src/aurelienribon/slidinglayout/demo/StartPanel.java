@@ -366,21 +366,19 @@ public class StartPanel extends javax.swing.JPanel {
                     
                     //System.out.print(thre_temp);
                     //System.out.print(area_temp);
-                    ShapePredicate temp=new ShapePredicate(energy_temp,time_temp,jcomboType.getSelectedIndex());
-                    SunSpotHostApplication.currentPredicates.add(temp);
                     //***************send temp out
-                          SunSpotHostApplication.sensor_type = jcomboType.getSelectedIndex() + 2;
-                          long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
-                          String base_addr = IEEEAddress.toDottedHex(ourAddr);
-                          int[] arr = new int[Constants.VALUE_SIZE];
-                          System.out.println("base_addr: " + base_addr + " substring(15): " +
-                                             Integer.parseInt(base_addr.substring(15), 16));
-                          arr[0]= Integer.parseInt(base_addr.substring(15), 16); 
-                          arr[1]= time_temp;
-                          arr[2]= SunSpotHostApplication.sensor_type; // waiting for the sensor type
-                          arr[3]= rwidth;
-                          arr[4]= rheight;
-                          SunSpotHostApplication.sendMessage(15, 4, arr, base_addr);
+                    SunSpotHostApplication.sensor_type = jcomboType.getSelectedIndex() + 2;
+                    long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
+                    String base_addr = IEEEAddress.toDottedHex(ourAddr);
+                    int[] arr = new int[Constants.VALUE_SIZE];
+                    System.out.println("base_addr: " + base_addr + " substring(15): " +
+                                       Integer.parseInt(base_addr.substring(15), 16));
+                    arr[0]= Integer.parseInt(base_addr.substring(15), 16); 
+                    arr[1]= time_temp;
+                    arr[2]= SunSpotHostApplication.sensor_type; // waiting for the sensor type
+                    arr[3]= rwidth;
+                    arr[4]= rheight;
+                    SunSpotHostApplication.sendMessage(15, 4, arr, base_addr);
                           
         /*    try {
                 Thread.sleep(100);
@@ -390,9 +388,8 @@ public class StartPanel extends javax.swing.JPanel {
                              arr[1] = 65;
                              SunSpotHostApplication.sendMessage(Constants.SPOT_NEW_PREDICATE,arr ,"0014.4F01.0000.7EB8");*/
                     
-                    String prenew=" Es"+Integer.toString((SunSpotHostApplication.currentPredicates.size()))+"("+Integer.toString(temp.threshold)
-                            +", "+Integer.toString(temp.area)+", "+SunSpotHostApplication.layer_type[jcomboType.getSelectedIndex()]+", "+SunSpotHostApplication.Colorname[SunSpotHostApplication.currentPredicates.size()-1]+")\n";       ///****
-                    // System.out.println(prenew); test prenew 
+                    String prenew=" Something must go here";
+
                     UserPanel.predicate_show.append(prenew);
                     //CardLayout cl = (CardLayout)(cards.getLayout());
                     //cl.show(cards,second);

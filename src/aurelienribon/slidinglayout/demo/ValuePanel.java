@@ -54,8 +54,8 @@ public class ValuePanel extends JPanel {
 		setLayout(new BorderLayout());
                 
                 //initial multipliers
-                X_multiplier = d.width / Constants.MAX_X;
-                Y_multiplier = d.height / Constants.MAX_Y;
+                X_multiplier = d.width / (double) Constants.MAX_X;
+                Y_multiplier = d.height / (double) Constants.MAX_Y;
                 this.setLayout(null);
                 
                 switchWidth=(int)((1.0/8.0)*d.width);
@@ -130,11 +130,10 @@ public class ValuePanel extends JPanel {
                 switchButton.setLocation((w-switchWidth),0);
                 
                 //initial multipliers
-                X_multiplier = w / Constants.MAX_X;
-                Y_multiplier = h  / Constants.MAX_Y;
-                double radius = (0.035*w)+(0.035*h);
+                X_multiplier = w / (double) Constants.MAX_X;
+                Y_multiplier = h  / (double) Constants.MAX_Y;
+                double radius = (0.023*w)+(0.023*h);
                 int FontSize = (int)(0.0075*w + 0.0075*h);
-                boolean pointStats[] = new boolean[Constants.TOTAL_MOTES];
 
                 gg.setStroke(new BasicStroke(3));
                 gg.setFont(new Font("SansSerif", Font.BOLD, FontSize));
@@ -144,25 +143,16 @@ public class ValuePanel extends JPanel {
                 if(isLight){
                     gg.drawString("Light",(int)(radius/2), (int)(radius/2));
                     for(int i=0; i<Constants.TOTAL_MOTES; i++){
-                        showValues[i]=SunSpotHostApplication.currentValues.get(i).light;
                     }
                 }
                 else{
                     gg.drawString("Temperature",(int)(radius/2), (int)(radius/2));
-                    for(int i=0; i<Constants.TOTAL_MOTES; i++){
-                        showValues[i]=SunSpotHostApplication.currentValues.get(i).temperature;
-                    }
                 }
                 
                 for(int i=0; i<Constants.TOTAL_MOTES; i++){
-                    if(pointStats[i]==true){
-                        continue;
-                    }
-                    Point p = Constants.idToLocation(i+1);
-                    //System.out.println(p.x+" "+p.y);
+                    Point p = Constants.getNodeLocation((short)i);
                     int x = (int)(p.x * X_multiplier);
                     int y = (int)(p.y * Y_multiplier);
-                    //System.out.println(p.x+" "+p.y);
                     
                     Color color = Color.YELLOW;
                     int alpha = 100;
@@ -175,7 +165,7 @@ public class ValuePanel extends JPanel {
                    // = (SunSpotHostApplication.currentValues.get(i))
                     Color colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
                     gg.setPaint(colTransparent);
-                    if(i<Constants.TOTAL_TELOS){
+                    if(Constants.isTelos((short)i)){
                         gg.fillOval((int)(x-(radius/2)), (int)(y-(radius/2)),(int)radius, (int)radius);
                     }
                     else{

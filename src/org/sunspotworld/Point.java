@@ -1,32 +1,30 @@
-package org.sunspotworld;
-
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-
+package org.sunspotworld;
 
 /**
  *
- * @author beSim
+ * @author Muhammed
  */
-public final class Point {
-    public  int x;    // x-coordinate
-    public  int y;    // y-coordinate
-
+public class Point {
+    public short x, y;
+    
+    
     // random point
     public Point() {
         x = 0;
         y = 0;
     }
-
-    // point initialized from parameters
-    public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
+    
+    Point(short a, short b){
+        x=a;
+        y=b;
     }
-
+    
     // accessor methods
     public double x() { return x; }
     public double y() { return y; }
@@ -43,5 +41,4 @@ public final class Point {
     public String toString() {
         return "(" + x + ", " + y + ")";
     }
-
 }

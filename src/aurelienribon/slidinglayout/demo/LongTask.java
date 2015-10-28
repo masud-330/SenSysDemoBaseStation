@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 import org.sunspotworld.Point;
 import org.sunspotworld.SunSpotHostApplication;
 import org.sunspotworld.*;
+import java.lang.Object;
 
 /**
  *
@@ -90,21 +91,9 @@ public class LongTask {
             //making a random amount of progress every second.
             while (!canceled) {
                 try { 
-                    //we could ask for a data
-                    //SunSpotHostApplication.data=SunSpotHostApplication.data_empty;
-                    //SunSpotHostApplication.viewP.removeAll();
-                    //SunSpotHostApplication.viewP.updateUI();  
-                    System.out.println("received shapes is: "+SunSpotHostApplication.positiveShapes.size());
-                     if(SunSpotHostApplication.positiveShapes.size()!=0) //if we receive data, ask data
-                     {
-                            SunSpotHostApplication.frame.shapePanel.repaint();
-                     }
-                     SunSpotHostApplication.frame.valuePanel.repaint();
-                    //System.out.print(current);
-                   /* if (current >= lengthOfTask) {
-                        done = true;
-                        current = lengthOfTask;
-                    }*/
+
+                    SunSpotHostApplication.frame.shapePanel.repaint();
+                    SunSpotHostApplication.frame.valuePanel.repaint();
                     Thread.sleep(1000); //sleep for a second
                 } catch (InterruptedException e) {
                     System.out.println("ActualTask interrupted");
