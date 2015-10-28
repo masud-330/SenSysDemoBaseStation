@@ -354,11 +354,7 @@ public class UserPanel extends JPanel {
                     SunSpotHostApplication.currentPredicates.add(temp);
                     //***************send temp out
                     
-                            int[] arr = new int[Constants.VALUE_SIZE];
-                            arr[0]=temp.phenomenonLayer; arr[1]=temp.threshold;
-                            arr[2]=temp.area;
-                            arr[3]=Constants.TERMINATOR;
-                            sendMessage(Constants.SPOT_NEW_PREDICATE,arr ,"0014.4F01.0000.7995" );
+
                     
                     String prenew=" Es"+Integer.toString((SunSpotHostApplication.currentPredicates.size()))+"("+Integer.toString(temp.threshold)
                             +", "+Integer.toString(temp.area)+", "+SunSpotHostApplication.layer_type[layer_add.getSelectedIndex()]+", "+SunSpotHostApplication.Colorname[SunSpotHostApplication.currentPredicates.size()-1]+")\n"; 
@@ -435,12 +431,6 @@ public class UserPanel extends JPanel {
                     
                     //***************send temp out
                     
-                            int[] arr = new int[Constants.VALUE_SIZE];
-                            arr[0]=temp_cooc.sp1.area; arr[1]=temp_cooc.sp1.threshold;arr[2]=temp_cooc.sp1.phenomenonLayer;
-                            arr[3]=temp_cooc.sp2.area; arr[4]=temp_cooc.sp2.threshold;arr[5]=temp_cooc.sp2.phenomenonLayer;
-                            arr[6]=temp_cooc.distance;
-                            arr[7]=Constants.TERMINATOR;
-                            sendMessage(Constants.SPOT_NEW_COOC,arr ,"0014.4F01.0000.7995" );
                     String prenew=" Cooc"+Integer.toString((SunSpotHostApplication.curCoOccPredicates.size()))+"(Es"+Integer.toString(occurence1.getSelectedIndex()+1)
                             +", Es"+Integer.toString(occurence2.getSelectedIndex()+1)+", "+Integer.toString(distance_temp)+")\n";
 
@@ -478,12 +468,6 @@ public class UserPanel extends JPanel {
                 SunSpotHostApplication.task.stop();
                 logs.setText("");
                 //clearing shape_receieve in reset click
-
-                        
-                  int[] arr = new int[Constants.VALUE_SIZE];
-                  //System.out.println(arr[5]);
-                  arr[0]=Constants.TERMINATOR;
-                  SunSpotHostApplication.sendMessage(Constants.SPOT_RESET,arr ,"0014.4F01.0000.7995" );
                   SunSpotHostApplication.task.stop();
                   SunSpotHostApplication.frame.shapePanel.repaint();
                   

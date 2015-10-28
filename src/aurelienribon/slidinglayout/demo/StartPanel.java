@@ -362,27 +362,7 @@ public class StartPanel extends javax.swing.JPanel {
                     
                     System.out.println(k+" "+rwidth +"---------"+rheight);
                     
-                     //System.out.print(thre_temp);
-                    //System.out.print(area_temp);
-                    ShapePredicate temp=new ShapePredicate(energy_temp,time_temp,jcomboType.getSelectedIndex());
-                    SunSpotHostApplication.currentPredicates.add(temp);
-                    //***************send temp out
-                            int[] arr = new int[Constants.VALUE_SIZE];
-                            arr[0]=temp.phenomenonLayer; arr[1]=temp.threshold;
-                            arr[2]=temp.area;
-                            arr[3]=Constants.TERMINATOR;
-                             SunSpotHostApplication.sendMessage(Constants.SPOT_NEW_PREDICATE,arr ,"0014.4F01.0000.7995");
-        /*    try {
-                Thread.sleep(100);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(StartPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                             arr[1] = 65;
-                             SunSpotHostApplication.sendMessage(Constants.SPOT_NEW_PREDICATE,arr ,"0014.4F01.0000.7EB8");*/
-                    
-                    String prenew=" Es"+Integer.toString((SunSpotHostApplication.currentPredicates.size()))+"("+Integer.toString(temp.threshold)
-                            +", "+Integer.toString(temp.area)+", "+SunSpotHostApplication.layer_type[jcomboType.getSelectedIndex()]+", "+SunSpotHostApplication.Colorname[SunSpotHostApplication.currentPredicates.size()-1]+")\n";       ///****
-
+                    String prenew=" Something must go here";
                     UserPanel.predicate_show.append(prenew);
                     //CardLayout cl = (CardLayout)(cards.getLayout());
                     //cl.show(cards,second);

@@ -91,133 +91,7 @@ public class SunSpotHostApplication {
                         System.out.println("Something is received "+dg.getAddress() +" "+dg.getData().length);
                         //System.out.println(dg.getData().length);
                         int msg_type = dg.readInt();
-                        if (dg.getAddress() != null && dg.getData().length > 12 && (dg.getAddress().equals("0014.4F01.0000.7995") || msg_type==Constants.MOTES_REPORT)) {
-                             System.out.println("msg type: "+msg_type);
-                             
-                             if(msg_type==Constants.SPOT_REPORT){
-                                 dg.readInt(); //skip origin
-                                 OurHC+=dg.readInt();
-                                 
-                                 int p_type = dg.readInt();
-                                 System.out.println("shape type "+p_type);
-                                 
-                                 if(p_type==Constants.SHAPE_OCCUR){
-                                    int area = dg.readInt();
-                                    int thresh = dg.readInt();
-                                    int pheno = dg.readInt();
-
-                                    ShapeOccurrence tempOccur;
-                                    Vector points=new Vector();
-                                    ShapePredicate temppre=new ShapePredicate(area, thresh, pheno);
-                                    boolean isFirst=false;
-                                    boolean isFinish=false;
-                                    boolean isLast=false;
-                                    while(!isFinish){
-                                        int read=dg.readInt();
-                                        System.out.println("received point is "+read);
-                                        if(read==Constants.SEPARATOR)
-                                        {
-                                            isFinish=true;
-                                            isFirst=true;
-                                            if(dg.readInt()==Constants.TRAILER){
-                                                isLast=true;
-                                            }
-                                        }
-                                        else if(read==Constants.TERMINATOR)
-                                        {
-                                            isFinish=true;
-                                            if(dg.readInt()==Constants.TRAILER){
-                                                isLast=true;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Point readin=Constants.idToLocation(read);
-                                            points.addElement(readin);
-                                        }
-
-                                     }
-                                     System.out.println("Points Size: "+points.size());
-                                     tempOccur=new ShapeOccurrence((Vector)points.clone(),temppre);
-  /////////////////////////////////////////////////////////////we put the received shape to. without check/////////////////////////////
-                                     if(isFirst){
-                                         task.stop();
-                                         positiveShapes.clear();
-                                     }
-                                     positiveShapes.add(tempOccur); 
-                                     if(isLast){
-                                         task.go();
-                                     }
-                                        for(int i=0;i<currentPredicates.size();i++)
-                                        {
-                                                	Calendar cal = Calendar.getInstance();
-    	                                                cal.getTime();
-    	                                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                                           
-                                                if(SunSpotHostApplication.currentPredicates.get(i).threshold== tempOccur.predicate.threshold
-                                                        &&SunSpotHostApplication.currentPredicates.get(i).area== tempOccur.predicate.area
-                                                        &&SunSpotHostApplication.currentPredicates.get(i).phenomenonLayer== tempOccur.predicate.phenomenonLayer)
-                                                {
-                                                    String tolog=" Es"+Integer.toString(i+1)+" occurred   ----   "+sdf.format(cal.getTime())+"\n";
-                                                    UserPanel.logs.append(tolog);
-                                                }
-                                            
-
-                                        }
-                                        for(int i=0; i<positiveShapes.size(); i++){
-                                            ShapeOccurrence occ=positiveShapes.get(i);
-                                            System.out.println(occ.predicate.phenomenonLayer+" "+occ.predicate.threshold+" "+occ.predicate.area);
-                                            for(int j=0; j<occ.points.size(); j++){
-                                                Point p = (Point)occ.points.get(j);
-                                                System.out.println(p.x+" "+p.y);
-                                            }
-                                        }
-                                 }
-                                 else if (p_type==Constants.PARTIAL_SHAPE){
-                                     System.err.println("recived partial shape");
-                                 }
-                                 else if(p_type==Constants.CO_OCCUR){
-                                     System.out.println("Received Co-Occ ");
-                                     
-                                     int area = dg.readInt();
-                                     int threshold = dg.readInt();
-                                     int phenomenon = dg.readInt();
-                                     ShapePredicate sp1 = new ShapePredicate(area, threshold, phenomenon);
-                                     
-                                     area = dg.readInt();
-                                     threshold = dg.readInt();
-                                     phenomenon = dg.readInt();
-                                     ShapePredicate sp2 = new ShapePredicate(area, threshold, phenomenon);
-                                     Point p1 = Constants.idToLocation(dg.readInt());
-                                     Point p2 = Constants.idToLocation(dg.readInt());
-                                     
-                                     for(int i=0; i<curCoOccPredicates.size(); i++){
-                                         CoOccurencePredicate co_oc = curCoOccPredicates.elementAt(i);
-                                         if((sp1.area==co_oc.sp1.area && sp1.phenomenonLayer==co_oc.sp1.phenomenonLayer && sp1.threshold==co_oc.sp1.threshold)
-                                                 &&(sp2.area==co_oc.sp2.area && sp2.phenomenonLayer==co_oc.sp2.phenomenonLayer && sp2.threshold==co_oc.sp2.threshold)){
-                                            Calendar cal = Calendar.getInstance();
-    	                                    cal.getTime();
-    	                                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                                            String tolog=" Cooc"+Integer.toString(i+1)+" occurred   ----   "+sdf.format(cal.getTime())+"\n";
-                                            UserPanel.logs.append(tolog);
-                                            break;
-                                         }
-                                     }
-                                     
-                                 }
-                             }
-                             else if(msg_type==Constants.MOTES_REPORT){
-                                 dg.readInt(); //skip origin
-                                 int hopcount=dg.readInt(); 
-                                 BruteHC+=hopcount;//we will use it later
-                                 
-                                 int id = dg.readInt();
-                                 currentValues.get(id-1).light=dg.readInt();
-                                 currentValues.get(id-1).temperature=dg.readInt();
-                                 System.out.println("Telos Value Report: "+id+" "+currentValues.get(id-1).light+" "+currentValues.get(id-1).temperature+" "+" hop :"+hopcount);
-                             }
-                        } 
-                            
+                        
                     } catch (Exception e) {
                         System.out.println("Nothing received");
                         e.printStackTrace();
@@ -276,7 +150,6 @@ public class SunSpotHostApplication {
     }
     
     void initialize(){
-        Constants.setNodeLocations(); //setting constants
         //setting up the sliding GUI
         for(int i=0; i<Constants.TOTAL_MOTES;i++){
             Value t=new Value(40, 75);

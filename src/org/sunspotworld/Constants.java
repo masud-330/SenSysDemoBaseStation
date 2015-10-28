@@ -26,6 +26,9 @@ public class Constants {
     public static final short ENERGY_INACTIVE_MOTE = 3;
     public static final short ENERGY_ACTIVE_MOTE = 25;
     
+    public static final short MAX_X = 350;
+    public static final short MAX_Y = 350;
+    
     public static Hashtable<String, Integer> nodeIds= new Hashtable<String, Integer>();
     
     public static void setAddresIDMapping(){
