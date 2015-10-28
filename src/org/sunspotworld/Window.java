@@ -12,10 +12,10 @@ package org.sunspotworld;
  */
 public class Window implements Comparable<Window>
 { // root.window = Window(xs[0],xs[-1],-5,0)
-  short l;
-  short r;
-  short h;
-  short score;
+  public short l;
+  public short r;
+  public short h;
+  public short score;
 
   public Window(short l, short r, short h, short score)
   {

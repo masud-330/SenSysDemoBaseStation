@@ -12,8 +12,8 @@ package org.sunspotworld;
  */
 public class Area
 {
-  short height;
-  short width;
+  public short height;
+  public short width;
 
   public Area(short height, short width)
   {

@@ -39,7 +39,7 @@ public class SunSpotHostApplication {
     public static Vector<Short> currentValues = new Vector<Short>();
     public static short enclosed_objects_no = 0;
     public static short time_period = 0;
-    public static Window Opt_Window = null;
+    public static Window Opt_Window = new Window((short)141,(short)141,(short)197,(short)654);
     public static int OurHC=0;
     public static int BruteHC=0;
     public static short current_phenomena = Constants.LIGHT_PHENOMENA;

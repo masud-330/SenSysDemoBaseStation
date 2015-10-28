@@ -104,6 +104,23 @@ public class ShapePanel extends JPanel {
                 gg.setStroke(new BasicStroke(3));
                 
                 //draw rectangle here
+                if (SunSpotHostApplication.Opt_Window != null){
+                        Color color = Color.MAGENTA;
+                        Color colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
+                        gg.setPaint(colTransparent);
+                        int x1 = Math.max(0, SunSpotHostApplication.Opt_Window.l - SunSpotHostApplication.coverage.height/2);
+                        int y1 = Math.max(0, SunSpotHostApplication.Opt_Window.h - SunSpotHostApplication.coverage.width/2);
+                        int x2 = Math.min(SunSpotHostApplication.area.height, SunSpotHostApplication.Opt_Window.l + SunSpotHostApplication.coverage.height/2);
+                        int y2 = Math.min(SunSpotHostApplication.area.width, SunSpotHostApplication.Opt_Window.h + SunSpotHostApplication.coverage.width/2);
+                        
+                        int g_x1 = (int)((x1 * X_multiplier));
+                        int g_x2 = (int)((x2 * X_multiplier));
+                        int g_y1 = (int)((y1 * Y_multiplier));
+                        int g_y2 = (int)((y2 * Y_multiplier));
+                        
+                        gg.fill3DRect(g_x1, g_y1, (g_x2-g_x1), (g_y2-g_y1), true);
+   
+                }
                 
                 gg.setPaint(new Color(0,0,0,255));
                 for(int i=0; i<Constants.TOTAL_MOTES; i++){
