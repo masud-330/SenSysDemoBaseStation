@@ -109,7 +109,7 @@ public class Tiny_connection
     return false;
   }
 
-  public boolean send(int pck_type, Rx_package pck_rx, int[] more_data)
+  public boolean send(int pck_type, Rx_package pck_rx, short[] more_data)
   { // forward the data to telosb    
     if((tiny_connection != null) && (dg != null))
     {
@@ -176,49 +176,42 @@ public class Tiny_connection
       System.out.println("\n\n\nReceive a package from " + dst_addr);
       
       int node_index = -1;
-      if(pck_type < 8)
+      node_index = Constants.getNodeId(last_4addr(dst_addr));
+      if(node_index == -1)
       {
-        node_index = within_cluster(dst_addr);
-        if(node_index == -1)
-        {
-          System.out.println(" Node Index: " + node_index + ", not in the same cluster.");
-          return null; // receive from other nodes not in the same cluster
-        }
-      } else if((pck_type == 8) || (pck_type == 9))
-      {
-        node_index = Constants.node_index(dst_addr);
-        System.out.println(dst_addr + " Cen Node Index: " + node_index);
+        System.out.println(" Node Index: " + node_index + ", not in the network.");
+        return null; // receive from other nodes not in the same cluster
       }
     
       if(pck_type == 0)
       {
-        int[] data = new int[1];
-        data[0] = (int) dg.readByte();
+        short[] data = new short[1];
+        data[0] = (short) dg.readByte();
         res = new Rx_package(pck_type, node_index, dst_addr,
                              data);
       } else if(pck_type == 1)
       { // update period and pck type
-        int[] temp = new int[2];
-        temp[0] = dg.readByte();
+        short[] temp = new short[2];
+        temp[0] = (short) dg.readByte();
         temp[1] = dg.readByte();
         res = new Rx_package(pck_type, node_index, dst_addr,
                              temp);
       } else if((pck_type == 2) || (pck_type == 3))
       { // either light or temp sensor data 
-        int[] temp = new int[1];
+        short[] temp = new short[1];
         temp[0] = dg.readShort();
         res = new Rx_package(pck_type, node_index, dst_addr,
                              temp);
       } else if(pck_type == 4)
       { // both temp and light sensors
-        int[] temp = new int[2];
+        short[] temp = new short[2];
         temp[0] = dg.readShort();
         temp[1] = dg.readShort();
         res = new Rx_package(pck_type, node_index, dst_addr,
                              temp);        
       } else if(pck_type == 5)
       {
-        int[] temp = new int[8];
+        short[] temp = new short[8];
         // System.out.println("=== Pck type: 5 Content ====");
         for(int i = 0; i < temp.length; i++)
         {
@@ -230,25 +223,23 @@ public class Tiny_connection
                              temp);                
       } else if(pck_type == 6)
       {
-        int[] temp = new int[1];
+        short[] temp = new short[1];
         temp[0] = dg.readByte();
         res = new Rx_package(pck_type, node_index, dst_addr,
                              temp);                        
       } else if(pck_type == 7)
       {
-        int[] temp = new int[32];
+        short[] temp = new short[32];
         for(int i = 0; i < 32; i++)
           temp[i] = dg.readShort();
         res = new Rx_package(pck_type, node_index, dst_addr, temp);
         
       } else if((pck_type == 8) || (pck_type == 9))
       {
-        int[] temp = new int[1];
+        short[] temp = new short[1];
         temp[0] = dg.readShort();
         res = new Rx_package(pck_type, node_index, dst_addr, temp);
       }
-      
-      
     } catch (IOException e) {
       System.out.println("Nothing Received");
       res = null;
@@ -276,16 +267,6 @@ public class Tiny_connection
         e.printStackTrace();
       }
     }
-  }
-
-  private int within_cluster(String addr) {
-    for(int i = 0; i < telosb_nodes.length; i++)
-    {
-      if(last_4addr(addr).equals(telosb_nodes[i]))
-        return i;
-    }
-
-    return -1;      
   }
   
   public String last_4addr(String addr) {

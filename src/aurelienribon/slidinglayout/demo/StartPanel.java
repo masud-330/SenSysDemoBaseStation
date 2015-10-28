@@ -373,7 +373,9 @@ public class StartPanel extends javax.swing.JPanel {
                           long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
                           String base_addr = IEEEAddress.toDottedHex(ourAddr);
                           int[] arr = new int[Constants.VALUE_SIZE];
-                          arr[0]= Integer.parseInt(base_addr.substring(15)); 
+                          System.out.println("base_addr: " + base_addr + " substring(15): " +
+                                             Integer.parseInt(base_addr.substring(15), 16));
+                          arr[0]= Integer.parseInt(base_addr.substring(15), 16); 
                           arr[1]= time_temp;
                           arr[2]= SunSpotHostApplication.sensor_type; // waiting for the sensor type
                           arr[3]= rwidth;
@@ -394,9 +396,9 @@ public class StartPanel extends javax.swing.JPanel {
                     UserPanel.predicate_show.append(prenew);
                     //CardLayout cl = (CardLayout)(cards.getLayout());
                     //cl.show(cards,second);
-                    SunSpotHostApplication.BruteHC=0;
-                    SunSpotHostApplication.OurHC=0;
-                    SunSpotHostApplication.task.go();
+                    //SunSpotHostApplication.BruteHC=0;
+                    //SunSpotHostApplication.OurHC=0;
+                    //SunSpotHostApplication.task.go();
                     if (action != null && actionEnabled) action.run();
                     this.jcomboType.setSelectedIndex(0);
                 }

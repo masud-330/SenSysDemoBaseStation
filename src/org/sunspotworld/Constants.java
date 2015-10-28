@@ -32,7 +32,7 @@ public class Constants {
     public static final int TEMP_PHENOMENA = 0x01;   //Indicates the phenomena of the predicate is temperature
 
     public static final int TERMINATOR = -127;  //the value which indicates no more values are needed
-    public static final int VALUE_SIZE = 22;
+    public static final int VALUE_SIZE = 62;
     
     //public static final int TOTAL_MOTES = 20;
     public static final int TOTAL_TELOS = 16;
@@ -133,51 +133,72 @@ public class Constants {
         return node_last4;
     }
             
-    private static int ss_node_index(String node_last4)
-    {   // return the node index of ss 
-        // { "7EBA", "7F45", "79A3", "7997"} 0, 1, 2, 3
-        // -1 if not the address is of ss.
-        for(int i = 0; i < ss_id.length; i++)
-        {
-            if(ss_id[i].equals(node_last4))
-                return i + number_telosb;
-        }
-        return -1;
-    }    
-    
     ///////////////////////////// PUBLIC ///////////////////////////////////////
 
-    // @param String node_id node id of either telosb or ss
-    // return int the node count in the centralized approach
-    public static int cost_node_count(String node_id)
-    {   
-        String node_last4 = last_4addr(node_id);
 
-        int index = ss_node_index(node_last4);
-        if(index != -1)
-          return node_count[index];
-          
-        index = Integer.parseInt(node_last4.substring(2, 4));
-        return node_count[index];
+    public static Hashtable<String, Integer> nodeIds= new Hashtable<String, Integer>();
+    
+    public static void setAddresIDMapping(){
+        nodeIds.put("0000", 0);
+        nodeIds.put("0101", 1);
+        nodeIds.put("0202", 2);
+        nodeIds.put("1003", 3);
+        nodeIds.put("1104", 4);
+        nodeIds.put("1205", 5);
+        nodeIds.put("0306", 6);
+        nodeIds.put("7EBA", 7);
+        nodeIds.put("0407", 8);
+        nodeIds.put("1308", 9);
+        nodeIds.put("7F45", 10);
+        nodeIds.put("1409", 11);
+        nodeIds.put("0510", 12);
+        nodeIds.put("0611", 13);
+        nodeIds.put("0712", 14);
+        nodeIds.put("1513", 15);
+        nodeIds.put("1614", 16);
+        nodeIds.put("1715", 17);
+        nodeIds.put("2016", 18);
+        nodeIds.put("2117", 19);
+        nodeIds.put("2218", 20);
+        nodeIds.put("3019", 21);
+        nodeIds.put("3120", 22);
+        nodeIds.put("3221", 23);
+        nodeIds.put("2322", 24);
+        nodeIds.put("79A3", 25);
+        nodeIds.put("2423", 26);
+        nodeIds.put("3324", 27);
+        nodeIds.put("7997", 28);
+        nodeIds.put("3425", 29);
+        nodeIds.put("2526", 30);
+        nodeIds.put("2627", 31);
+        nodeIds.put("2728", 32);
+        nodeIds.put("3529", 33);
+        nodeIds.put("3630", 34);
+        nodeIds.put("3731", 35);
     }
-
-    // @param String node_id node id of either telosb or ss
-    // return int the node index for the lsensor_all or tsensor_all
-    public static int node_index(String node_id)    
-    {
-        String node_last4 = last_4addr(node_id);
-        int index = ss_node_index(node_last4);
-        //System.out.println(node_last4 + " ss index: " + index);
-        if(index != -1)
-          return index;
-        // find the node index based on the last 2 digits of the nodes
-        // int temp = Integer.parseInt(node_last4.substring(2, 4));
+    
+    public static short getNodeId(String addr){
+        if(nodeIds.contains(addr))
+            return nodeIds.get(addr).shortValue();
+        return -1;    
+    }
+    
+    public static Point getNodeLocation(short id){
+        if(id<0 || id>35){
+            return null;
+        }
+        short offsetw = Constants.AREA_WIDTH/7;
+        short offseth = Constants.AREA_HEIGHT/7;
+        int indw = id%6;
+        int indh = id/6;
+        return new Point((short)(offsetw+(indw*offsetw)),(short)(offseth+(indh*offseth)));
+    }
+    
+    public static boolean isTelos(short id){
+        if(id==7 || id==10 || id==25 || id==28){
+            return false;
+        }
+        return true;
+    } 
         
-        // find the node index based on the node cluster number and 
-        // the node cluster id which are the first and second digits
-        int temp = Integer.parseInt(node_last4.substring(0, 1)) * 8
-                   + Integer.parseInt(node_last4.substring(1, 2));
-        //System.out.println(node_last4 + " int parse index: " + temp);        
-        return temp;
-    }    
 }
