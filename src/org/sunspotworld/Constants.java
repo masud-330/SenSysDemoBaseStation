@@ -52,6 +52,21 @@ public class Constants {
      
     public static Hashtable nodeLocations = new Hashtable();
     
+    private static int number_telosb = 32;
+    //                                           0  1  2  3  4  5  6  7  
+    private static int[] node_count = new int[] {6, 5, 4, 6, 4, 6, 5, 4,
+                                                 3, 2, 1, 3, 2, 3, 3, 3,
+                                                 6, 5, 4, 6, 5, 6, 6, 6, 
+                                                 4, 4, 4, 5, 5, 6, 6, 6,
+                                                 5, // S:0x7BEA
+                                                 2, // S:0x7F45
+                                                 5, // S:0x79A3
+                                                 5};// S:0x7997
+    public static String[] ss_id = new String[] { "7EBA", "7F45", "79A3", "7997"};
+    public static final String T1205_ID = "0014.4F01.0000.1205";
+    public static final String BROADCAST_ID = "0014.4F01.0000.FFFF";
+    public static final String[] TELOSB_NODES = {"1205"}; 
+    public static final int CONNECTION_PORT = 37;        
     /**
      * T1           T4      :T13          T16
      *      S1              :       S4
@@ -106,4 +121,63 @@ public class Constants {
         }
         return -1;
     }
+    ///////////////////OUR PART *******************////////////////
+    
+    private static String last_4addr(String addr)
+    {   // return the last 4 digit of the address 
+        String node_last4 = null;
+        if(addr.length() == 19)
+            node_last4 = addr.substring(15, addr.length());
+        else if(addr.length() == 4)
+            node_last4 = addr;    
+        return node_last4;
+    }
+            
+    private static int ss_node_index(String node_last4)
+    {   // return the node index of ss 
+        // { "7EBA", "7F45", "79A3", "7997"} 0, 1, 2, 3
+        // -1 if not the address is of ss.
+        for(int i = 0; i < ss_id.length; i++)
+        {
+            if(ss_id[i].equals(node_last4))
+                return i + number_telosb;
+        }
+        return -1;
+    }    
+    
+    ///////////////////////////// PUBLIC ///////////////////////////////////////
+
+    // @param String node_id node id of either telosb or ss
+    // return int the node count in the centralized approach
+    public static int cost_node_count(String node_id)
+    {   
+        String node_last4 = last_4addr(node_id);
+
+        int index = ss_node_index(node_last4);
+        if(index != -1)
+          return node_count[index];
+          
+        index = Integer.parseInt(node_last4.substring(2, 4));
+        return node_count[index];
+    }
+
+    // @param String node_id node id of either telosb or ss
+    // return int the node index for the lsensor_all or tsensor_all
+    public static int node_index(String node_id)    
+    {
+        String node_last4 = last_4addr(node_id);
+        int index = ss_node_index(node_last4);
+        //System.out.println(node_last4 + " ss index: " + index);
+        if(index != -1)
+          return index;
+        // find the node index based on the last 2 digits of the nodes
+        // int temp = Integer.parseInt(node_last4.substring(2, 4));
+        
+        // find the node index based on the node cluster number and 
+        // the node cluster id which are the first and second digits
+        int temp = Integer.parseInt(node_last4.substring(0, 1)) * 8
+                   + Integer.parseInt(node_last4.substring(1, 2));
+        //System.out.println(node_last4 + " int parse index: " + temp);        
+        return temp;
+    }    
 }

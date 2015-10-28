@@ -9,6 +9,8 @@ package aurelienribon.slidinglayout.demo;
 import aurelienribon.slidinglayout.SLAnimator;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
+import com.sun.spot.peripheral.radio.RadioFactory;
+import com.sun.spot.util.IEEEAddress;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -362,16 +364,22 @@ public class StartPanel extends javax.swing.JPanel {
                     
                     System.out.println(k+" "+rwidth +"---------"+rheight);
                     
-                     //System.out.print(thre_temp);
+                    //System.out.print(thre_temp);
                     //System.out.print(area_temp);
                     ShapePredicate temp=new ShapePredicate(energy_temp,time_temp,jcomboType.getSelectedIndex());
                     SunSpotHostApplication.currentPredicates.add(temp);
                     //***************send temp out
-                            int[] arr = new int[Constants.VALUE_SIZE];
-                            arr[0]=temp.phenomenonLayer; arr[1]=temp.threshold;
-                            arr[2]=temp.area;
-                            arr[3]=Constants.TERMINATOR;
-                             SunSpotHostApplication.sendMessage(Constants.SPOT_NEW_PREDICATE,arr ,"0014.4F01.0000.7995");
+                          SunSpotHostApplication.sensor_type = jcomboType.getSelectedIndex() + 2;
+                          long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
+                          String base_addr = IEEEAddress.toDottedHex(ourAddr);
+                          int[] arr = new int[Constants.VALUE_SIZE];
+                          arr[0]= Integer.parseInt(base_addr.substring(15)); 
+                          arr[1]= time_temp;
+                          arr[2]= SunSpotHostApplication.sensor_type; // waiting for the sensor type
+                          arr[3]= rwidth;
+                          arr[4]= rheight;
+                          SunSpotHostApplication.sendMessage(15, 4, arr, base_addr);
+                          
         /*    try {
                 Thread.sleep(100);
             } catch (InterruptedException ex) {
@@ -382,7 +390,7 @@ public class StartPanel extends javax.swing.JPanel {
                     
                     String prenew=" Es"+Integer.toString((SunSpotHostApplication.currentPredicates.size()))+"("+Integer.toString(temp.threshold)
                             +", "+Integer.toString(temp.area)+", "+SunSpotHostApplication.layer_type[jcomboType.getSelectedIndex()]+", "+SunSpotHostApplication.Colorname[SunSpotHostApplication.currentPredicates.size()-1]+")\n";       ///****
-
+                    // System.out.println(prenew); test prenew 
                     UserPanel.predicate_show.append(prenew);
                     //CardLayout cl = (CardLayout)(cards.getLayout());
                     //cl.show(cards,second);
