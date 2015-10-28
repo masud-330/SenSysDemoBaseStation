@@ -102,11 +102,14 @@ public class ShapePanel extends JPanel {
                 double radius = (0.023*w)+(0.023*h);
                 
                 gg.setStroke(new BasicStroke(3));
+                
+                //draw rectangle here
+                
                 gg.setPaint(new Color(0,0,0,255));
                 for(int i=0; i<Constants.TOTAL_MOTES; i++){
                     Point p = Constants.getNodeLocation((short)i);
-                    int x = (int)(p.x * X_multiplier);
-                    int y = (int)(p.y * Y_multiplier);
+                    int x = (short)(p.x * X_multiplier);
+                    int y = (short)(p.y * Y_multiplier);
                     
                     if(Constants.isTelos((short)i)){
                         gg.drawOval((int)(x-(radius/2)), (int)(y-(radius/2)),(int)radius, (int)radius);
