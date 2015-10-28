@@ -48,7 +48,7 @@ public class TheFrame extends JFrame {
                 
                 setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Evolving Shapes in Wireless Sensor Networks - Northwestern University");
+		setTitle("Distributed MaxRS in Wireless Sensor Networks - Northwestern University");
 		getContentPane().setBackground(new Color(0x540799));
 		getContentPane().add(panel, BorderLayout.CENTER);
 

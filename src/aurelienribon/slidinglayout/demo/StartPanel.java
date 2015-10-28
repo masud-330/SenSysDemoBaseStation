@@ -374,6 +374,7 @@ public class StartPanel extends javax.swing.JPanel {
                     if(k==24 || k==26 || k==28) {a=6; b=4;}
                     if(k==30 || k==32 || k==34) {a=6; b=5;}
                     if(k==36) {a=6; b=6;}
+                    ////////////////////////////////////////////////////////////////////////////////////////////
                     
                     short x = (short)Math.sqrt(area/ (a*a*b*b));
                     short rheight = (short) (b*x);  ///rectangle size
@@ -382,10 +383,21 @@ public class StartPanel extends javax.swing.JPanel {
                     if(rwidth % 2 == 1) rwidth+=1;
                     if(rheight % 2 == 1) rheight+=1;
                     
+                    SunSpotHostApplication.coverage = new Area(rwidth, rheight);
+                    SunSpotHostApplication.enclosed_objects_no = (short)k;
+                    SunSpotHostApplication.time_period = (short) time_temp;
                     System.out.println(k+" "+rwidth +"---------"+rheight);
                     
-                    String prenew="Something must go here";
+                    //TODO: Copy Top's code here directly to send the Setup packet!
+                    
+                    String prenew="Energy Threshold, \u03B4 = "+Integer.toString(energy_temp)+" mA.\n"+"Time-Period, \u0194 = "+Integer.toString(time_temp)+" S.\n"
+                            +"Phenomena Type = "+SunSpotHostApplication.layer_type[jcomboType.getSelectedIndex()]+". \n"+"Rectangle Size = ("+rwidth+","+rheight+"). \n"
+                            +"No of Active Nodes = "+k+". \n";
+                
                     UserPanel.predicate_show.append(prenew);
+                    
+                    String lognew = "Parameters Received. \n";
+                    UserPanel.logs.append(lognew);
                     //CardLayout cl = (CardLayout)(cards.getLayout());
                     //cl.show(cards,second);
                     SunSpotHostApplication.BruteHC=0;

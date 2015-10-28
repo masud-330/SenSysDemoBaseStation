@@ -62,7 +62,7 @@ public class ValuePanel extends JPanel {
                 switchHeight=(int)((1.0/20.0)*d.height);
                 switchButton.setSize(switchWidth, switchHeight);
                 switchButton.setLocation((d.width-switchWidth),0);
-                this.add(switchButton);
+                //this.add(switchButton);
                         /*add new exp */
                 
                 //action listener for the button
@@ -140,19 +140,21 @@ public class ValuePanel extends JPanel {
                 
                 int showValues[]=new int[Constants.TOTAL_MOTES];
                 gg.setPaint(new Color(128,0,128,255));
-                if(isLight){
+                if(SunSpotHostApplication.current_phenomena==Constants.LIGHT_PHENOMENA){
                     gg.drawString("Light",(int)(radius/2), (int)(radius/2));
-                    for(int i=0; i<Constants.TOTAL_MOTES; i++){
-                    }
                 }
                 else{
                     gg.drawString("Temperature",(int)(radius/2), (int)(radius/2));
                 }
                 
                 for(int i=0; i<Constants.TOTAL_MOTES; i++){
+                        showValues[i]=SunSpotHostApplication.currentValues.get(i);
+                }
+                
+                for(int i=0; i<Constants.TOTAL_MOTES; i++){
                     Point p = Constants.getNodeLocation((short)i);
-                    int x = (int)(p.x * X_multiplier);
-                    int y = (int)(p.y * Y_multiplier);
+                    int x = (short)(p.x * X_multiplier);
+                    int y = (short)(p.y * Y_multiplier);
                     
                     Color color = Color.YELLOW;
                     int alpha = 100;
