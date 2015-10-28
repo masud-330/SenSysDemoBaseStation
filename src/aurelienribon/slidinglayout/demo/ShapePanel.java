@@ -24,6 +24,7 @@ import java.awt.BasicStroke;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.sunspotworld.Object;
 
 /**
  * @author Aurelien Ribon | http://www.aurelienribon.com/
@@ -102,16 +103,17 @@ public class ShapePanel extends JPanel {
                 double radius = (0.023*w)+(0.023*h);
                 
                 gg.setStroke(new BasicStroke(3));
+                Color color = Color.YELLOW;
+                Color colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
+                gg.setPaint(colTransparent);
                 
+                int x1=0, x2=0, y1=0, y2=0;
                 //draw rectangle here
                 if (SunSpotHostApplication.Opt_Window != null){
-                        Color color = Color.MAGENTA;
-                        Color colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
-                        gg.setPaint(colTransparent);
-                        int x1 = Math.max(0, SunSpotHostApplication.Opt_Window.l - SunSpotHostApplication.coverage.height/2);
-                        int y1 = Math.max(0, SunSpotHostApplication.Opt_Window.h - SunSpotHostApplication.coverage.width/2);
-                        int x2 = Math.min(SunSpotHostApplication.area.height, SunSpotHostApplication.Opt_Window.l + SunSpotHostApplication.coverage.height/2);
-                        int y2 = Math.min(SunSpotHostApplication.area.width, SunSpotHostApplication.Opt_Window.h + SunSpotHostApplication.coverage.width/2);
+                        x1 = Math.max(0, SunSpotHostApplication.Opt_Window.l - SunSpotHostApplication.coverage.height/2);
+                        y1 = Math.max(0, SunSpotHostApplication.Opt_Window.h - SunSpotHostApplication.coverage.width/2);
+                        x2 = Math.min(SunSpotHostApplication.area.height, SunSpotHostApplication.Opt_Window.l + SunSpotHostApplication.coverage.height/2);
+                        y2 = Math.min(SunSpotHostApplication.area.width, SunSpotHostApplication.Opt_Window.h + SunSpotHostApplication.coverage.width/2);
                         
                         int g_x1 = (int)((x1 * X_multiplier));
                         int g_x2 = (int)((x2 * X_multiplier));
@@ -119,12 +121,36 @@ public class ShapePanel extends JPanel {
                         int g_y2 = (int)((y2 * Y_multiplier));
                         
                         gg.fill3DRect(g_x1, g_y1, (g_x2-g_x1), (g_y2-g_y1), true);
-   
+                        
+                        color = Color.GREEN;
+                        colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
+                        gg.setPaint(colTransparent);
+                        
+                        short i=0;
+                        for(Object obj :  SunSpotHostApplication.currentObjects){
+                            if(Constants.isWithin(new Rectangle((short)x1, (short)y1, (short)x2, (short)y2,(short)40), obj)){
+                                int x = (short)(obj.x * X_multiplier);
+                                int y = (short)(obj.y * Y_multiplier);
+                                if(Constants.isTelos(i)){
+                                    gg.fillOval((int)(x-(radius/2)), (int)(y-(radius/2)),(int)(radius), (int)(radius));
+                                }
+                                else{
+                                    gg.fillRect((int)(x-(radius/2)), (int)(y-(radius/2)),(int)(radius), (int)(radius));
+                                }
+                            }
+                            i++;
+                        }
                 }
                 
                 gg.setPaint(new Color(0,0,0,255));
+                color = Color.BLACK;
+                colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), 255);
+                gg.setPaint(colTransparent);
                 for(int i=0; i<Constants.TOTAL_MOTES; i++){
                     Point p = Constants.getNodeLocation((short)i);
+                    if(Constants.isWithin(new Rectangle((short)x1, (short)y1, (short)x2, (short)y2,(short)40), p)){
+                        continue;
+                    }
                     int x = (short)(p.x * X_multiplier);
                     int y = (short)(p.y * Y_multiplier);
                     

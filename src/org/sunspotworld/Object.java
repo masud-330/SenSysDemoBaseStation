@@ -12,9 +12,9 @@ package org.sunspotworld;
  */
 public class Object implements Comparable<Object>
 {
-  short x;
-  short y;
-  short weight;
+  public short x;
+  public short y;
+  public short weight;
 
   public Object(short x, short y, short weight)
   {
