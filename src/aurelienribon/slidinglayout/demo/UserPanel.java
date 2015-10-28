@@ -33,7 +33,6 @@ import javax.swing.SwingConstants;
 import org.sunspotworld.Constants;
 import org.sunspotworld.SunSpotHostApplication;
 import static org.sunspotworld.SunSpotHostApplication.layer_type;
-import static org.sunspotworld.SunSpotHostApplication.sendMessage;
 import javax.swing.text.DefaultCaret;
 
 /**

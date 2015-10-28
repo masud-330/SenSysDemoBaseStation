@@ -39,7 +39,12 @@ public class SunSpotHostApplication {
     public static Vector<Short> currentValues = new Vector<Short>();
     public static int OurHC=0;
     public static int BruteHC=0;
-    
+    public static short current_phenomena = Constants.LIGHT_PHENOMENA;
+    //centralised processing
+    public static Vector<Object> currentObjects = new Vector<Object>();
+    public static Vector<Rectangle> currentRectangle = new Vector<Rectangle>();
+    public static Area area;
+    public static Area coverage;
     
     /**
      * Print out our radio address.
@@ -48,7 +53,10 @@ public class SunSpotHostApplication {
         long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
         System.out.println("Our radio address = " + IEEEAddress.toDottedHex(ourAddr));
         //System.exit(0);
+        //-------------------------------------------------------------------------------
+        //TODO: Paste Top's Code here 
         //startReceiverThread(); //start the reciver thread to listen
+        //-------------------------------------------------------------------------------
         initialize();
         /*****GUI*////////////////////
         Tween.registerAccessor(ThePanel.class, new ThePanel.Accessor());
@@ -66,35 +74,6 @@ public class SunSpotHostApplication {
         app.run(); //this will set the application off
     }
     
-    public static void startReceiverThread() {
-        new Thread() {
-            public void run() {
-                TinyOSRadioConnection conn=null; //tinyos connection 
-                Datagram dg=null; //the message holder
-	        try{
-                   conn = (TinyOSRadioConnection) Connector.open("tinyos://:65");  //opens connection at channel 65
-		   dg = conn.newDatagram(conn.getMaximumLength()); //sets up datagram
-                } catch (IOException e) {
-                    System.out.println("Could not open tinyos receiver connection");
-                    e.printStackTrace();
-                    return;
-                }     
-                while(true){
-                    try {
-			conn.receive(dg); //something is received, blocking wait
-                        System.out.println("Something is received "+dg.getAddress() +" "+dg.getData().length);
-                        //System.out.println(dg.getData().length);
-                        int msg_type = dg.readInt();
-                        
-                    } catch (Exception e) {
-                        System.out.println("Nothing received");
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
-    }
-    
     /////****GUI *//////////////////////////////////////
     Dimension initialScreenSize(){
         Dimension currentScreen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -104,50 +83,35 @@ public class SunSpotHostApplication {
         return currentScreen;
     }
     
-       
-        //a function for spots to send various type of messages
-    public static void sendMessage(int type, int[] values, String address){
-        TinyOSRadioConnection conn = null;
-        try {
-            conn = (TinyOSRadioConnection) Connector.open("tinyos://"+address+":65");
-        } catch (IOException ex) {
-            System.out.println("Could not open radiogram broadcast connection");
-            ex.printStackTrace();
-            return;
-        }
-        try {
-                //for origin thing setup
-                long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
-                // We send the message (UTF encoded)
-                Datagram dg = conn.newDatagram(conn.getMaximumLength());
-                dg.reset();
-                dg.writeInt(type);
-                dg.writeInt(Integer.parseInt(IEEEAddress.toDottedHex(ourAddr).substring(15), 16)); //origin
-                dg.writeInt(1); //hocount
-                for(int i=0; i<values.length; i++){
-                    dg.writeInt(values[i]);
-                }
-                conn.send(dg);
-                System.out.println("Updated info sent...");
-                
-        } catch (IOException ex) {
-            System.err.println("Problem while sending message");
-            ex.printStackTrace();
-        }
-        finally{
-            try{
-                conn.close();
-            } catch (IOException ex){
-                
-            }
-        }
-    }
-    
     void initialize(){
+        area = new Area(Constants.AREA_WIDTH, Constants.AREA_HEIGHT);
+        coverage = new Area((short)80, (short)80);
+        short def_val=40;
+        if(current_phenomena == Constants.TEMP_PHENOMENA){
+            def_val=75;
+        }
         //setting up the sliding GUI
         for(int i=0; i<Constants.TOTAL_MOTES;i++){
             short t=40;
             currentValues.add(t);
+        }
+        
+        short offsetw = Constants.AREA_WIDTH/7;
+        short offseth = Constants.AREA_HEIGHT/7;
+        for(int i=0; i<Constants.TOTAL_MOTES;i++){
+            currentValues.add(def_val);
+            int indw = i%6;
+            int indh = i/6;
+            currentObjects.add(new Object((short)(offsetw+(indw*offsetw)),(short)(offseth+(indh*offseth)),def_val));
+        }
+        for(Object obj : currentObjects){
+               currentRectangle.add(new Rectangle((short)Math.max(0, obj.x - coverage.width/2),
+                                                (short)Math.max(0, obj.y - coverage.height/2),
+                                                (short)Math.min(area.width,
+                                                         obj.x + coverage.width/2),
+                                                (short)Math.min(area.height,
+                                                         obj.y + coverage.height/2),
+                                                obj.weight));
         }
     }
     
