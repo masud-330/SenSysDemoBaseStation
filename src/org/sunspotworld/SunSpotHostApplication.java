@@ -64,7 +64,8 @@ public class SunSpotHostApplication {
       base_broadcast = null;
       
       Utils.sleep(100); // do not delete this line      
-      
+      System.out.println("Start the receiver thread");
+      startReceiverThread();
       //initialize();
         /*****GUI*////////////////////
         Tween.registerAccessor(ThePanel.class, new ThePanel.Accessor());
@@ -82,18 +83,29 @@ public class SunSpotHostApplication {
         app.run(); //this will set the application off
     }
 
-  public static void startReceiverThread2() {
-    new Thread() {
+  public static void startReceiverThread() {
+    new Thread("Updating Thread") {
       public void run() {
-        Tiny_connection rx_broadcast = new Tiny_connection(null,
-                                                           Constants.CONNECTION_PORT,
-                                                           Constants.TELOSB_NODES);
+        thread_message("In the updating thread");
+        //Tiny_connection rx_broadcast = new Tiny_connection(null,
+        //                                                   Constants.CONNECTION_PORT,
+        //                                                   Constants.TELOSB_NODES);
+        TinyOSRadioConnection conn=null; //tinyos connection
+        Datagram dg=null; //the message holder
+        try{
+          conn = (TinyOSRadioConnection) Connector.open("tinyos://:65");  //opens connection at channel 65
+          dg = conn.newDatagram(conn.getMaximumLength()); //sets up datagram
+        } catch (Exception e) {
+          System.out.println("Could not open tinyos receiver connection");
+          e.printStackTrace();
+          return;
+        }
+        
         int temp = 0;
         if(sensor_type == 2) {
           lsensor_all = new Vector<Short>(36);
           tsensor_all = null;
         }
-        
         if(sensor_type == 3) {
           tsensor_all = new Vector<Short>(36);
           lsensor_all = null;
@@ -102,28 +114,36 @@ public class SunSpotHostApplication {
         while(true) {
           Rx_package pck_rx = null;
           Short x = 0;
-          do {
-            pck_rx = rx_broadcast.receive();
-          } while(pck_rx == null);
-          
-          System.out.println("Rx type: " + pck_rx.get_pck_type());
-          if((sensor_type == 2) && (pck_rx.get_pck_type() == 8))
-          {
-            int node_index = pck_rx.get_node_index();
-            lsensor_all.set(pck_rx.get_node_index(), pck_rx.get_payload()[0]);
-            System.out.println("node index: " + node_index + 
-                               " val: " + pck_rx.get_payload()[0]);
-          } else if((sensor_type == 3) && (pck_rx.get_pck_type() == 9))
-          {
-            int node_index = pck_rx.get_node_index();
-            tsensor_all.set(pck_rx.get_node_index(), pck_rx.get_payload()[0]);
-            System.out.println("node index: " + node_index + 
-                               " val: " + pck_rx.get_payload()[0]);
+          // do {
+          //   thread_message("5555 Waiting for the data");
+          //   //pck_rx = rx_broadcast.receive();
+          // } while(pck_rx == null);
+          System.out.println("print y");
+          try {
+            conn.receive(dg); //something is received, blocking wait
+            System.out.println("print x");
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+          continue;
+          // thread_message("Rx type: " + pck_rx.get_pck_type());
+          // if((sensor_type == 2) && (pck_rx.get_pck_type() == 8))
+          // {
+          //   int node_index = pck_rx.get_node_index();
+          //   lsensor_all.set(pck_rx.get_node_index(), pck_rx.get_payload()[0]);
+          //   thread_message("node index: " + node_index + 
+          //                  " val: " + pck_rx.get_payload()[0]);
+          // } else if((sensor_type == 3) && (pck_rx.get_pck_type() == 9))
+          // {
+          //   int node_index = pck_rx.get_node_index();
+          //   tsensor_all.set(pck_rx.get_node_index(), pck_rx.get_payload()[0]);
+          //   thread_message("node index: " + node_index + 
+          //                  " val: " + pck_rx.get_payload()[0]);
             
-          } else if(pck_rx.get_pck_type() == 7)
-          {
+          // } else if(pck_rx.get_pck_type() == 7)
+          // {
             //print_data_dis(pck_rx);
-            temp++;
+            // temp++;
             // if(temp == 10)
             // {
             //   if(sensor_type == 2)
@@ -145,8 +165,8 @@ public class SunSpotHostApplication {
             // rx_broadcast.send(1, pck, null);
             // System.out.println("Send a new setup package");
             // temp = 0;
-          }      
-          System.out.println("Temp " + temp + " sensor_type " + sensor_type);
+          // }      
+          // System.out.println("Temp " + temp + " sensor_type " + sensor_type);
         }
       }
     }.start();
@@ -218,9 +238,11 @@ public class SunSpotHostApplication {
   // @values_last_index: int the last index of the data in the values
   // @values: int payload
   // @address: String 16 digit addresses of the destination
-  public static void sendMessage(int type, int values_last_index, int[] values, String address){
+  public static void sendMessage(int type, int values_last_index, 
+                                 int[] values, String address){
     TinyOSRadioConnection conn = null;
     try {
+      System.out.println("Open Connection to: " + address);
       conn = (TinyOSRadioConnection) Connector.open("tinyos://"+address+":" 
                                                     + Constants.CONNECTION_PORT);
     } catch (IOException ex) {
@@ -235,7 +257,7 @@ public class SunSpotHostApplication {
       for(int i=0; i<= values_last_index; i++)
         dg.writeShort(values[i]);
         
-      for(int i=values_last_index + 1; i< values.length; i++)
+      for(int i=values_last_index + 1; i < values.length; i++)
         dg.writeShort(Constants.TERMINATOR);
       
       conn.send(dg);
@@ -246,6 +268,7 @@ public class SunSpotHostApplication {
     }
     finally{
       try{
+        System.out.println("Close Connection to: " + address);  
         conn.close();
       } catch (IOException ex){
         System.err.println("Problem while closing the connection");
@@ -258,6 +281,11 @@ public class SunSpotHostApplication {
     return (long) (-38.4 + 0.0098 * ((long) raw));
   }
 
+  
+  static void thread_message(String message) {
+    String thread_name = Thread.currentThread().getName();
+    System.out.println("*** T: " + thread_name + ": " + message);
+  }
     void initialize(){
         //setting up the sliding GUI
         for(int i=0; i<Constants.TOTAL_MOTES;i++){

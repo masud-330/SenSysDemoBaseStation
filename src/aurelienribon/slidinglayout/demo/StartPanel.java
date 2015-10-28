@@ -378,8 +378,8 @@ public class StartPanel extends javax.swing.JPanel {
                     arr[2]= SunSpotHostApplication.sensor_type; // waiting for the sensor type
                     arr[3]= rwidth;
                     arr[4]= rheight;
-                    SunSpotHostApplication.sendMessage(15, 4, arr, base_addr);
-                          
+                    SunSpotHostApplication.sendMessage(15, 4, arr, Constants.T1205_ID);
+                    System.out.println("print done setup");
         /*    try {
                 Thread.sleep(100);
             } catch (InterruptedException ex) {

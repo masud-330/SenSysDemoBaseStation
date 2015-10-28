@@ -76,7 +76,7 @@ public class Tiny_connection
       {
         System.out.println("$TC Open Broadcast port: " + String.valueOf(port));
         // broadcast the threshold
-        tiny_connection = (TinyOSRadioConnection) Connector.open("tinyos://:37");
+        tiny_connection = (TinyOSRadioConnection) Connector.open("tinyos://:" + port);
         // Then, we ask for a datagram with the maximum size allowed
         dg = tiny_connection.newDatagram(tiny_connection.getMaximumLength());
         is_broadcast = true;
@@ -169,14 +169,13 @@ public class Tiny_connection
     try
     {
       dg.reset();
-      System.out.print("Waiting for the data ");
+      System.out.println("Waiting for the data ");
       tiny_connection.receive(dg);             // a blocking call
       String dst_addr = dg.getAddress();
       int pck_type = dg.readByte();      
       System.out.println("\n\n\nReceive a package from " + dst_addr);
       
-      int node_index = -1;
-      node_index = Constants.getNodeId(last_4addr(dst_addr));
+      int node_index = Constants.getNodeId(last_4addr(dst_addr));
       if(node_index == -1)
       {
         System.out.println(" Node Index: " + node_index + ", not in the network.");

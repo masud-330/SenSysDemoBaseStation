@@ -32,22 +32,14 @@ public class Constants {
     public static Hashtable nodeLocations = new Hashtable();
     
     private static int number_telosb = 32;
-    //                                           0  1  2  3  4  5  6  7  
-    private static int[] node_count = new int[] {6, 5, 4, 6, 4, 6, 5, 4,
-                                                 3, 2, 1, 3, 2, 3, 3, 3,
-                                                 6, 5, 4, 6, 5, 6, 6, 6, 
-                                                 4, 4, 4, 5, 5, 6, 6, 6,
-                                                 5, // S:0x7BEA
-                                                 2, // S:0x7F45
-                                                 5, // S:0x79A3
-                                                 5};// S:0x7997
+
     public static String[] ss_id = new String[] { "7EBA", "7F45", "79A3", "7997"};
-    public static final int TERMINATOR = -127;
-    public static final int VALUE_SIZE = 62;
+    public static final short TERMINATOR = -127;
+    public static final int VALUE_SIZE = 31;
     public static final String T1205_ID = "0014.4F01.0000.1205";
     public static final String BROADCAST_ID = "0014.4F01.0000.FFFF";
     public static final String[] TELOSB_NODES = {"1205"}; 
-    public static final int CONNECTION_PORT = 37;        
+    public static final int CONNECTION_PORT = 65;        
     /**
      * T1           T4      :T13          T16
      *      S1              :       S4
