@@ -55,6 +55,7 @@ public class UserPanel extends JPanel {
         final static String second = "card for add second";
         final static String third = "card for add third";
         final static String forth = "card for cooc";
+        final static String fifth = "card for event";
         static boolean flag=false;    
         static String errorlabel;
         public static JLabel hopLabel = new JLabel("Hopcoount (brute/: ");
@@ -70,9 +71,10 @@ public class UserPanel extends JPanel {
                 final JPanel controlP=new JPanel();
                 JPanel add=new JPanel();
                 JPanel cooc = new JPanel();
+                JPanel event = new JPanel();
                 
                 /////fillers, ugly coding..
-                JLabel fillers[] = new JLabel[15];
+                JLabel fillers[] = new JLabel[16];
                 for(int i=0; i<fillers.length;i++){
                     fillers[i]=new JLabel("                                                                             ");;
                 }
@@ -92,46 +94,36 @@ public class UserPanel extends JPanel {
                 threshold_add.setColumns(20);
                 threshold_add.setSize(200, 35);
                 
-                JLabel shres_add_labor = new JLabel("             Threshold Value             ", JLabel.TRAILING);
+                JLabel shres_add_labor = new JLabel("                     Energy Threshold, \u03B4 (mA)           ", JLabel.TRAILING);
                 shres_add_labor.setLabelFor(threshold_add);
                 shres_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 shres_add_labor.setSize(325, 20);
 
-                final TextField area_field_add = new TextField();
-                area_field_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                area_field_add.setColumns(20);
-                area_field_add.setSize(200, 35);
-                JLabel area_add_labor = new JLabel("               Minimum Area              ", JLabel.TRAILING);
-                area_add_labor.setLabelFor(area_field_add);
-                area_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                area_add_labor.setSize(325, 20);
+                //final TextField area_field_add = new TextField();
+                //area_field_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                //area_field_add.setColumns(20);
+                //area_field_add.setSize(200, 35);
+               // JLabel area_add_labor = new JLabel("               Minimum Area              ", JLabel.TRAILING);
+               // area_add_labor.setLabelFor(area_field_add);
+                //area_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                //area_add_labor.setSize(325, 20);
 
-                final JComboBox layer_add=new JComboBox();
-                layer_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                layer_add.setSize(200, 35);
-                JLabel layer_add_labor=new JLabel("                     Event Type                     ", JLabel.TRAILING);
-                layer_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                layer_add_labor.setSize(325, 20);
-                layer_add_labor.setLabelFor(layer_add);
-                layer_add.addItem("Light");
-                layer_add.addItem("Temperature");
+                //final JComboBox layer_add=new JComboBox();
+                //layer_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                //layer_add.setSize(200, 35);
+                //JLabel layer_add_labor=new JLabel("                     Event Type                     ", JLabel.TRAILING);
+                //layer_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                //layer_add_labor.setSize(325, 20);
+                //layer_add_labor.setLabelFor(layer_add);
+                //layer_add.addItem("Light");
+                //layer_add.addItem("Temperature");
                 
                 shres_add_labor.setLocation(locx, locy);
                 locy+=40;
                 locx+=120;
                 threshold_add.setLocation(locx, locy);
-                locy+=60;
-                locx-=120;
-                area_add_labor.setLocation(locx, locy);
-                locy+=40;
-                locx+=120;
-                area_field_add.setLocation(locx, locy);
-                locy+=60;
-                locx-=120;
-                layer_add_labor.setLocation(locx, locy);
-                locy+=40;
-                locx+=120;
-                layer_add.setLocation(locx, locy);
+                //locy+=60;
+                //locx-=120;
                 locy+=85;
                 locx-=45;
                 add_pre.setLocation(locx, locy);
@@ -142,13 +134,6 @@ public class UserPanel extends JPanel {
                 //add.add(fillers[4]);
                 add.add(threshold_add);
                 //add.add(fillers[5]);
-                add.add(area_add_labor);
-                //add.add(fillers[6]);
-                add.add(area_field_add);
-                //add.add(fillers[7]);
-                add.add(layer_add_labor);
-                //add.add(fillers[8]);
-                add.add(layer_add);
                 //add.add(fillers[9]);
                 add.add(add_pre);
                 
@@ -157,52 +142,67 @@ public class UserPanel extends JPanel {
                 add_cooc.setFont(new Font("SansSerif", Font.PLAIN, 15));
                 add_cooc.setSize(300, 35);
                 
-                final JComboBox occurence1=new JComboBox();
-                final JComboBox occurence2=new JComboBox();
-                occurence1.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                occurence2.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                occurence1.setSize(200, 35);
-                occurence2.setSize(200, 35);
-
-                final TextField distance_in = new TextField();
-                distance_in.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                distance_in.setColumns(20);
-                distance_in.setSize(200, 35);
-                
-                JLabel distance_in_labor = new JLabel("                Distance                 ", JLabel.TRAILING);
-                occurence2.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                distance_in.setSize(200, 35);
-                distance_in_labor.setLabelFor(distance_in);
-                distance_in_labor.setSize(325, 20);
-                distance_in_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                final TextField area_field_add = new TextField();
+                area_field_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                area_field_add.setColumns(20);
+                area_field_add.setSize(200, 35);
+                JLabel area_add_labor = new JLabel("               Time-Period, \u0194 (S)             ", JLabel.TRAILING);
+                area_add_labor.setLabelFor(area_field_add);
+                area_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                area_add_labor.setSize(325, 20);
                  
-                locx=130;locy=10;
-                occurence1.setLocation(locx, locy);
+                locx=10; locy=10;
+                area_add_labor.setLocation(locx, locy);
                 
-                locy+=60;
-                occurence2.setLocation(locx, locy);
-                
-                locy+=60;
-                locx-=130;
-                distance_in_labor.setLocation(locx, locy);
-                
-                locx+=130;
                 locy+=40;
-                distance_in.setLocation(locx, locy);
+                locx+=120;
+                area_field_add.setLocation(locx, locy);
                 
-                locx-=45;
                 locy+=85;
+                locx-=45;
                 add_cooc.setLocation(locx, locy);
                 
                 cooc.setLayout(null);
-                cooc.add(occurence1);
+                cooc.add(area_add_labor);
                 //cooc.add(fillers[0]);
-                cooc.add(occurence2);                
+                cooc.add(area_field_add);                
                 //cooc.add(fillers[1]);
-                cooc.add(distance_in_labor);
-                cooc.add(distance_in);
                 //cooc.add(fillers[2]);                
                 cooc.add(add_cooc);
+                
+                
+                JButton add_event = new JButton("       Send Event      ");
+                add_event.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                add_event.setSize(300, 35);
+                
+                final JComboBox layer_add=new JComboBox();
+                layer_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                layer_add.setSize(200, 35);
+                JLabel layer_add_labor=new JLabel("                     Event Type                     ", JLabel.TRAILING);
+                layer_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                layer_add_labor.setSize(325, 20);
+                layer_add_labor.setLabelFor(layer_add);
+                layer_add.addItem("Light");
+                layer_add.addItem("Temperature");
+                
+                locx=10; locy=10;
+                layer_add_labor.setLocation(locx, locy);
+                
+                locy+=40;
+                locx+=120;
+                layer_add.setLocation(locx, locy);
+                
+                locy+=85;
+                locx-=45;
+                add_event.setLocation(locx, locy);
+                
+                event.setLayout(null);
+                event.add(layer_add_labor);
+                //cooc.add(fillers[0]);
+                event.add(layer_add);                
+                //cooc.add(fillers[1]);
+                //cooc.add(fillers[2]);                
+                event.add(add_event);               
                 
                 /* for control page */
                 controlP.setPreferredSize(new Dimension(fixedSize.width, fixedSize.height));
@@ -277,11 +277,12 @@ public class UserPanel extends JPanel {
                 cards.add(controlP,second);
                 cards.add(add, third);
                 cards.add(cooc,forth);
+                cards.add(event, fifth);
                 
                 this.add(cards);
                 CardLayout cl = (CardLayout)(cards.getLayout());
                 cl.show(cards,second);
-                layer_add.setSelectedIndex(0);
+                //layer_add.setSelectedIndex(0);
                 
                        /*add pre*/
         add_pre.addActionListener(new ActionListener() {           //************* we add predicate here
@@ -345,7 +346,7 @@ public class UserPanel extends JPanel {
                 {
                     //System.out.print(thre_temp);
                     //System.out.print(area_temp);
-                    System.out.println("area: "+area_temp+" threshold: "+thre_temp+" layer: "+layer_add.getSelectedIndex());
+                    //System.out.println("area: "+area_temp+" threshold: "+thre_temp+" layer: "+layer_add.getSelectedIndex());
                     //***************send temp out
                     
 
@@ -355,7 +356,7 @@ public class UserPanel extends JPanel {
                     predicate_show.append(prenew);
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,second);
-                    layer_add.setSelectedIndex(0);
+                    //layer_add.setSelectedIndex(0);
 
                     //SunSpotHostApplication.task.go();
                 }
@@ -368,44 +369,8 @@ public class UserPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");
                 flag=false;
-                int distance_temp=0;
-                if(distance_in.getText().equals(""))
-                {
-                    flag=true;
-                    errorlabel="empty";
-
-                }
-                try{
-                    distance_temp = Integer.parseInt(distance_in.getText());
-                    distance_in.setText("");
-                }
-                catch(NumberFormatException nfe)
-                {
-                    flag=true;
-                    errorlabel="nfe";
-                }
-                if(occurence1.getSelectedIndex()==occurence2.getSelectedIndex())
-                {
-                    flag=true;
-                    errorlabel="sameoccurence";
-                }
-
                 if(flag==true)
                 {
-                    if(errorlabel.equals("empty"))
-                    {
-                        JOptionPane.showMessageDialog(cards,
-                                "Can not have empty input field","Input mistake",
-                                JOptionPane.WARNING_MESSAGE);
-                        distance_in.setText("");
-                    }
-                    if(errorlabel.equals("nfe"))
-                    {
-                        JOptionPane.showMessageDialog(cards,
-                                "predicate must be number","Input mistake",
-                                JOptionPane.WARNING_MESSAGE);
-                        distance_in.setText("");
-                    }
                     if(errorlabel.equals("sameoccurence"))
                     {
                         JOptionPane.showMessageDialog(cards,
@@ -422,18 +387,50 @@ public class UserPanel extends JPanel {
                     
                     //***************send temp out
                     
-                    String prenew=" Put Something Good";
+                    String prenew="Put Something Good";
 
                     predicate_show.append(prenew);
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,second);
-                    occurence1.removeAllItems();
-                    occurence2.removeAllItems();
 
                     //SunSpotHostApplication.task.go();
                 }
             }
         });
+        
+        add_event.addActionListener(new ActionListener() {           //************* we add predicate here
+            public void actionPerformed(ActionEvent e) {
+                //print_name.setText("");
+                flag=false;
+                if(flag==true)
+                {
+                    if(errorlabel.equals("sameoccurence"))
+                    {
+                        JOptionPane.showMessageDialog(cards,
+                                "Occurrence selection can not be same","Selection mistake",
+                                JOptionPane.WARNING_MESSAGE);
+
+                    }
+
+                }
+                if(flag==false)
+                {
+                    //System.out.print(thre_temp);
+                    //System.out.print(area_temp);
+                    
+                    //***************send temp out
+                    
+                    String prenew="Put Something Good";
+
+                    predicate_show.append(prenew);
+                    CardLayout cl = (CardLayout)(cards.getLayout());
+                    cl.show(cards,second);
+
+                    //SunSpotHostApplication.task.go();
+                }
+            }
+        });
+        
         
         /*add new exp */
         addexp.addActionListener(new ActionListener() {
@@ -482,6 +479,29 @@ public class UserPanel extends JPanel {
                 {
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,forth);
+                }
+                //SunSpotHostApplication.task.stop();
+            }
+        });
+
+        gotophen.addActionListener(new ActionListener() {           //************* we add predicate here
+            public void actionPerformed(ActionEvent e) {
+                //print_name.setText("");
+                flag=false;
+                if(flag==true)
+                {
+
+                        JOptionPane.showMessageDialog(cards,
+                                "Need more than one predicate","Input mistake",
+                                JOptionPane.WARNING_MESSAGE);
+
+
+
+                }
+                if(flag==false)
+                {
+                    CardLayout cl = (CardLayout)(cards.getLayout());
+                    cl.show(cards,fifth);
                 }
                 //SunSpotHostApplication.task.stop();
             }
