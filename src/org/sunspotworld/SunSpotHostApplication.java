@@ -37,6 +37,7 @@ public class SunSpotHostApplication {
     public static TheFrame frame;
     public static LongTask task=new LongTask();
     public static Vector<Short> currentValues = new Vector<Short>();
+    public static Window Opt_Window = null;
     public static int OurHC=0;
     public static int BruteHC=0;
     public static short current_phenomena = Constants.LIGHT_PHENOMENA;

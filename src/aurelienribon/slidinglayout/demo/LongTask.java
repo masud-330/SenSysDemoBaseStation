@@ -92,7 +92,10 @@ public class LongTask {
             while (!canceled) {
                 try { 
 
-                    SunSpotHostApplication.frame.shapePanel.repaint();
+                     if(SunSpotHostApplication.Opt_Window != null) //if we receive data, ask data
+                     {
+                            SunSpotHostApplication.frame.shapePanel.repaint();
+                     }
                     SunSpotHostApplication.frame.valuePanel.repaint();
                     Thread.sleep(1000); //sleep for a second
                 } catch (InterruptedException e) {
