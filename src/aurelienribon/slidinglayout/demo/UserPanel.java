@@ -289,61 +289,7 @@ public class UserPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");
                 flag=false;
-                int thre_temp=0;
-                int area_temp=0;
-                if(threshold_add.getText().equals(""))
-                {
-                    flag=true;
-                    errorlabel="empty";
 
-                }
-                if(area_field_add.getText().equals(""))
-                {
-                    flag=true;
-                    errorlabel="empty";
-                }
-                try{
-                    thre_temp = Integer.parseInt(threshold_add.getText());
-                    threshold_add.setText("");
-                }
-                catch(NumberFormatException nfe)
-                {
-                    flag=true;
-                    errorlabel="nfe";
-                }
-                try{
-                    area_temp = Integer.parseInt(area_field_add.getText());
-                    area_field_add.setText("");
-
-                }
-                catch(NumberFormatException nfe)
-                {
-                    flag=true;
-                    errorlabel="nfe";
-                }
-
-                if(flag==true)
-                {
-                    if(errorlabel.equals("empty"))
-                    {
-                        JOptionPane.showMessageDialog(cards,
-                                "Can not have empty input field","Input mistake",
-                                JOptionPane.WARNING_MESSAGE);
-                        threshold_add.setText("");
-                        area_field_add.setText("");
-                    }
-                    if(errorlabel.equals("nfe"))
-                    {
-                        JOptionPane.showMessageDialog(cards,
-                                "predicate must be number","Input mistake",
-                                JOptionPane.WARNING_MESSAGE);
-                        threshold_add.setText("");
-                        area_field_add.setText("");
-                    }
-
-                }
-                if(flag==false)
-                {
                     //System.out.print(thre_temp);
                     //System.out.print(area_temp);
                     //System.out.println("area: "+area_temp+" threshold: "+thre_temp+" layer: "+layer_add.getSelectedIndex());
@@ -359,7 +305,6 @@ public class UserPanel extends JPanel {
                     //layer_add.setSelectedIndex(0);
 
                     //SunSpotHostApplication.task.go();
-                }
             }
         });
         
@@ -387,6 +332,7 @@ public class UserPanel extends JPanel {
                     predicate_show.append(prenew);
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,second);
+                    layer_add.setSelectedIndex(0);
             }
         });
         
