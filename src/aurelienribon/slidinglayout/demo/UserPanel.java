@@ -367,67 +367,26 @@ public class UserPanel extends JPanel {
 
         add_cooc.addActionListener(new ActionListener() {           //************* we add predicate here
             public void actionPerformed(ActionEvent e) {
-                //print_name.setText("");
-                flag=false;
-                if(flag==true)
-                {
-                    if(errorlabel.equals("sameoccurence"))
-                    {
-                        JOptionPane.showMessageDialog(cards,
-                                "Occurrence selection can not be same","Selection mistake",
-                                JOptionPane.WARNING_MESSAGE);
 
-                    }
-
-                }
-                if(flag==false)
-                {
-                    //System.out.print(thre_temp);
-                    //System.out.print(area_temp);
-                    
-                    //***************send temp out
                     
                     String prenew="Put Something Good";
 
                     predicate_show.append(prenew);
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,second);
-
-                    //SunSpotHostApplication.task.go();
-                }
             }
         });
         
         add_event.addActionListener(new ActionListener() {           //************* we add predicate here
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");
-                flag=false;
-                if(flag==true)
-                {
-                    if(errorlabel.equals("sameoccurence"))
-                    {
-                        JOptionPane.showMessageDialog(cards,
-                                "Occurrence selection can not be same","Selection mistake",
-                                JOptionPane.WARNING_MESSAGE);
 
-                    }
-
-                }
-                if(flag==false)
-                {
-                    //System.out.print(thre_temp);
-                    //System.out.print(area_temp);
-                    
-                    //***************send temp out
                     
                     String prenew="Put Something Good";
 
                     predicate_show.append(prenew);
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,second);
-
-                    //SunSpotHostApplication.task.go();
-                }
             }
         });
         
@@ -464,22 +423,9 @@ public class UserPanel extends JPanel {
         gotocooc.addActionListener(new ActionListener() {           //************* we add predicate here
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");
-                flag=false;
-                if(flag==true)
-                {
 
-                        JOptionPane.showMessageDialog(cards,
-                                "Need more than one predicate","Input mistake",
-                                JOptionPane.WARNING_MESSAGE);
-
-
-
-                }
-                if(flag==false)
-                {
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,forth);
-                }
                 //SunSpotHostApplication.task.stop();
             }
         });
@@ -488,21 +434,8 @@ public class UserPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");
                 flag=false;
-                if(flag==true)
-                {
-
-                        JOptionPane.showMessageDialog(cards,
-                                "Need more than one predicate","Input mistake",
-                                JOptionPane.WARNING_MESSAGE);
-
-
-
-                }
-                if(flag==false)
-                {
-                    CardLayout cl = (CardLayout)(cards.getLayout());
-                    cl.show(cards,fifth);
-                }
+                CardLayout cl = (CardLayout)(cards.getLayout());
+                cl.show(cards,fifth);
                 //SunSpotHostApplication.task.stop();
             }
         });
