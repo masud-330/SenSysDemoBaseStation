@@ -10,12 +10,14 @@ package org.sunspotworld;
  *
  * @author Muhammed
  */
-public class Point {
-    short x, y;
-    
-    Point(short a, short b){
-        x=a;
-        y=b;
-    }
-    
+public class Area
+{
+  short height;
+  short width;
+
+  public Area(short height, short width)
+  {
+    this.height = height;
+    this.width = width;
+  }
 }
