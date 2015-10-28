@@ -30,11 +30,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import org.sunspotworld.CoOccurencePredicate;
 import org.sunspotworld.Constants;
-import org.sunspotworld.ShapePredicate;
 import org.sunspotworld.SunSpotHostApplication;
-import static org.sunspotworld.SunSpotHostApplication.Colorname;
 import static org.sunspotworld.SunSpotHostApplication.layer_type;
 import static org.sunspotworld.SunSpotHostApplication.sendMessage;
 import javax.swing.text.DefaultCaret;
@@ -349,15 +346,12 @@ public class UserPanel extends JPanel {
                 {
                     //System.out.print(thre_temp);
                     //System.out.print(area_temp);
-                    ShapePredicate temp=new ShapePredicate(area_temp,thre_temp,layer_add.getSelectedIndex());
                     System.out.println("area: "+area_temp+" threshold: "+thre_temp+" layer: "+layer_add.getSelectedIndex());
-                    SunSpotHostApplication.currentPredicates.add(temp);
                     //***************send temp out
                     
 
                     
-                    String prenew=" Es"+Integer.toString((SunSpotHostApplication.currentPredicates.size()))+"("+Integer.toString(temp.threshold)
-                            +", "+Integer.toString(temp.area)+", "+SunSpotHostApplication.layer_type[layer_add.getSelectedIndex()]+", "+SunSpotHostApplication.Colorname[SunSpotHostApplication.currentPredicates.size()-1]+")\n"; 
+                    String prenew=" ";
 
                     predicate_show.append(prenew);
                     CardLayout cl = (CardLayout)(cards.getLayout());
@@ -426,13 +420,10 @@ public class UserPanel extends JPanel {
                 {
                     //System.out.print(thre_temp);
                     //System.out.print(area_temp);
-                    CoOccurencePredicate temp_cooc=new CoOccurencePredicate(SunSpotHostApplication.currentPredicates.get(occurence1.getSelectedIndex()),SunSpotHostApplication.currentPredicates.get(occurence2.getSelectedIndex()),distance_temp);
-                    SunSpotHostApplication.curCoOccPredicates.add(temp_cooc);
                     
                     //***************send temp out
                     
-                    String prenew=" Cooc"+Integer.toString((SunSpotHostApplication.curCoOccPredicates.size()))+"(Es"+Integer.toString(occurence1.getSelectedIndex()+1)
-                            +", Es"+Integer.toString(occurence2.getSelectedIndex()+1)+", "+Integer.toString(distance_temp)+")\n";
+                    String prenew=" Put Something Good";
 
                     predicate_show.append(prenew);
                     CardLayout cl = (CardLayout)(cards.getLayout());
@@ -460,9 +451,6 @@ public class UserPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");
                 predicate_show.setText("");
-                SunSpotHostApplication.currentPredicates.clear();
-                SunSpotHostApplication.curCoOccPredicates.clear();
-                SunSpotHostApplication.positiveShapes.clear();
                 SunSpotHostApplication.BruteHC=0;
                 SunSpotHostApplication.OurHC=0;
                 SunSpotHostApplication.task.stop();
@@ -481,11 +469,6 @@ public class UserPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");
                 flag=false;
-                if(SunSpotHostApplication.currentPredicates.size()<=1)
-                {
-                    flag=true;
-                }
-
                 if(flag==true)
                 {
 
@@ -498,13 +481,6 @@ public class UserPanel extends JPanel {
                 }
                 if(flag==false)
                 {
-                    for(int i=0;i<SunSpotHostApplication.currentPredicates.size();i++)
-                    {
-                        String content= " Es"+Integer.toString(i+1)+"("+Double.toString(SunSpotHostApplication.currentPredicates.get(i).threshold)
-                                +", "+Double.toString(SunSpotHostApplication.currentPredicates.get(i).area)+", "+layer_type[SunSpotHostApplication.currentPredicates.get(i).phenomenonLayer]+")";
-                        occurence1.addItem(content);
-                        occurence2.addItem(content);
-                    }
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,forth);
                 }

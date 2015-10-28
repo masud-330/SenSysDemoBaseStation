@@ -11,7 +11,7 @@ package org.sunspotworld;
  * @author Muhammed
  */
 public class Point {
-    short x, y;
+    public short x, y;
     
     Point(short a, short b){
         x=a;

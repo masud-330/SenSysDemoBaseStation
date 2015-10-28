@@ -143,14 +143,10 @@ public class ValuePanel extends JPanel {
                 if(isLight){
                     gg.drawString("Light",(int)(radius/2), (int)(radius/2));
                     for(int i=0; i<Constants.TOTAL_MOTES; i++){
-                        showValues[i]=SunSpotHostApplication.currentValues.get(i).light;
                     }
                 }
                 else{
                     gg.drawString("Temperature",(int)(radius/2), (int)(radius/2));
-                    for(int i=0; i<Constants.TOTAL_MOTES; i++){
-                        showValues[i]=SunSpotHostApplication.currentValues.get(i).temperature;
-                    }
                 }
                 
                 for(int i=0; i<Constants.TOTAL_MOTES; i++){

@@ -33,16 +33,10 @@ import java.util.Calendar;
  */
 public class SunSpotHostApplication {
 
-    public static Vector<ShapePredicate> currentPredicates = new Vector<ShapePredicate>();
-    public static Vector<CoOccurencePredicate> curCoOccPredicates = new Vector<CoOccurencePredicate>();
-//    public static Vector<ShapeOccurrence> currentShapes= new Vector<ShapeOccurrence>();
-    public static Vector<ShapeOccurrence> positiveShapes = new Vector<ShapeOccurrence>();
     public static String[] layer_type={ "Light","Temperature"};
-    public static Color[] colorlib={Color.BLUE,Color.GREEN, Color.RED, Color.ORANGE, Color.PINK, Color.CYAN, Color.MAGENTA, Color.BLACK};
-    public static String[] Colorname={"Blue", "Green", "Red", "Orange", "Pink", "Cyan", "Magenta", "Black"};
     public static TheFrame frame;
     public static LongTask task=new LongTask();
-    public static Vector<Value> currentValues = new Vector<Value>();
+    public static Vector<Short> currentValues = new Vector<Short>();
     public static int OurHC=0;
     public static int BruteHC=0;
     
@@ -152,7 +146,7 @@ public class SunSpotHostApplication {
     void initialize(){
         //setting up the sliding GUI
         for(int i=0; i<Constants.TOTAL_MOTES;i++){
-            Value t=new Value(40, 75);
+            short t=40;
             currentValues.add(t);
         }
     }
