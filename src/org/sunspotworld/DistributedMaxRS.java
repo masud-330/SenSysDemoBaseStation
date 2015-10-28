@@ -152,7 +152,7 @@ public class DistributedMaxRS {
                                                 (short)Math.max(0, obj.y - coverage.height/2),
                                                 (short)Math.min(area.width,
                                                          obj.x + coverage.width/2),
-                                                (short)Math.min(coverage_height,
+                                                (short)Math.min(area.height,
                                                          obj.y + coverage.height/2),
                                                 obj.weight));
         }
@@ -207,7 +207,7 @@ public class DistributedMaxRS {
         //sort the objects, add the rectangles
         Collections.sort(myObects_sorted);
         for(Object obj : myObects_sorted){
-               myRectangles.add(new Rectangle((short)Math.max(coverage_width, obj.x - coverage.width/2),
+               myRectangles.add(new Rectangle((short)Math.max(0, obj.x - coverage.width/2),
                                                 (short)Math.max(0, obj.y - coverage.height/2),
                                                 (short)Math.min(area.width,
                                                          obj.x + coverage.width/2),
@@ -254,14 +254,14 @@ public class DistributedMaxRS {
         
         //ids from cluster - 2
         myObjectIds.add((short)20);
-        myObjectIds.add((short)19);
         myObjectIds.add((short)26);
-        myObjectIds.add((short)25);
-        myObjectIds.add((short)18);  //myid
+        myObjectIds.add((short)32);
+        myObjectIds.add((short)19);    
+        myObjectIds.add((short)25);  //c-2 principal id 
+        myObjectIds.add((short)31);
+        myObjectIds.add((short)18);   
         myObjectIds.add((short)24);
         myObjectIds.add((short)30);
-        myObjectIds.add((short)31);
-        myObjectIds.add((short)32); 
         
         //setting up the objects for once
         for(int i=0; i<9; i++){
@@ -294,23 +294,26 @@ public class DistributedMaxRS {
         }
 
         //from cluster-2
-        i=27;
         int k=(coverage.height/Constants.GAP_HEIGHT)<=3?(coverage.height/Constants.GAP_HEIGHT):3;
-        for(;i<(27 + (k*k));i++){
-            Point obj = Constants.getNodeLocation(myObjectIds.get(i));
-            myObjects.add(new Object(obj.x, obj.y, osf2.neededValues.get(j++)));             
-        }
-               
+        int limit2 = (coverage.width/Constants.GAP_WIDTH)<=3?(coverage.width/Constants.GAP_WIDTH):3;       
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        for(i=0; i<limit2; i++){
+            for(short p=0;p<k; p++){
+                Point obj = Constants.getNodeLocation(myObjectIds.get(27+(i*3+p)));
+                System.out.println(osf2.neededValues.get(j));
+                myObjects.add(new Object(obj.x, obj.y, osf2.neededValues.get(j++)));   
+            }
+        }    
         
         Vector<Object> myObects_sorted = (Vector<Object>) myObjects.clone();
         //sort the objects, add the rectangles
         Collections.sort(myObects_sorted);
         for(Object obj : myObects_sorted){       
-               myRectangles.add(new Rectangle((short)Math.max(coverage_width, obj.x - coverage.width/2),
+               myRectangles.add(new Rectangle((short)Math.max(0, obj.x - coverage.width/2),
                                                 (short)Math.max(0, obj.y - coverage.height/2),
                                                 (short)Math.min(area.width,
                                                          obj.x + coverage.width/2),
-                                                (short)Math.min(coverage_height,
+                                                (short)Math.min(area.height,
                                                          obj.y + coverage.height/2),
                                                 obj.weight));
         }
@@ -511,18 +514,12 @@ public class DistributedMaxRS {
             values.add(myObjects.get(j++).weight);
             values.add(myObjects.get(j++).weight);
         }
-        //add values for corner overlappings
-        if(limit==1){
-            values.add(myObjects.get(9).weight);
-        }
-        else if(limit==2){
-            values.add(myObjects.get(9).weight);values.add(myObjects.get(12).weight);values.add(myObjects.get(10).weight);
-            values.add(myObjects.get(13).weight);
-        }
-        else if(limit==3){
-            values.add(myObjects.get(9).weight);values.add(myObjects.get(12).weight);values.add(myObjects.get(10).weight);
-            values.add(myObjects.get(13).weight);values.add(myObjects.get(15).weight);values.add(myObjects.get(16).weight);
-            values.add(myObjects.get(17).weight);values.add(myObjects.get(14).weight);values.add(myObjects.get(11).weight);
+        
+        int limit2 = (coverage.width/Constants.GAP_WIDTH)<=3?(coverage.width/Constants.GAP_WIDTH):3;       
+        for(int i=0; i<limit2; i++){
+            for(j=0;j<limit; j++){
+                values.add(myObjects.get(9+(i*3+j)).weight);
+            }
         }
         
         DistSlabfile result = new DistSlabfile(hintervals, values);
@@ -560,7 +557,7 @@ public class DistributedMaxRS {
         meit.preOrderTraverse(root);
         meit.interval_tree_root = root;
         root.window = new Window(aListOfX.get(0), aListOfX.get(aListOfX.size() - 1),
-                               (short) -5, (short) 0);
+                               (short) 0, (short) 0);
 
         slabFile= meit.maxEnclosing(myRectangles, coverage, root);
         System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
@@ -596,7 +593,7 @@ public class DistributedMaxRS {
         }
         
         Collections.sort(hintervals);
-        Window opt_window = new Window((short)0, (short)0, (short)0, (short)-5); 
+        Window opt_window = new Window((short)0, (short)0, (short)0, (short)0); 
         for(Window h : hintervals){
             //System.out.println(h.h+"-----"+h.l+" "+h.r+" "+h.score);
             if(h.score>opt_window.score){
@@ -609,7 +606,7 @@ public class DistributedMaxRS {
     static Area computeCoverage(int Energy){
         //do compute the size of the rectangle from Energy threshold given by the user
         //Always make the area EVEN!!!!!!!!!!!!!!!!!!!!!!!
-        return new Area((short)210, (short)210);
+        return new Area((short)151, (short)101);
     }
     
     /////////////////////////////////////*********** Testing Purposes ************************////////////////////////////////////
@@ -663,7 +660,7 @@ public class DistributedMaxRS {
       System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$");    
       meit.interval_tree_root = root;
       root.window = new Window(aListOfX.get(0), aListOfX.get(aListOfX.size() - 1),
-                               (short) -5, (short) 0);
+                               (short) 0, (short) 0);
 
       Window optimal_window = meit.maxEnclosing2(currentRectangle, coverage, root);
       System.out.println("optimal_window score l r h: " + optimal_window.score + " "

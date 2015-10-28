@@ -33,7 +33,7 @@ import java.util.Calendar;
  */
 public class SunSpotHostApplication {
 
-    public static String[] layer_type={ "Light","Temperature"};
+    public static String[] layer_type={"Light","Temperature"};
     public static TheFrame frame;
     public static LongTask task=new LongTask();
     public static Vector<Short> currentValues = new Vector<Short>();
