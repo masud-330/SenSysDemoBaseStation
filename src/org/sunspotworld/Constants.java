@@ -20,8 +20,8 @@ public class Constants {
     
     public static final short TOTAL_MOTES = 36;
     
-    public static final short LIGHT_PHENOMENA = 0;  //if the phenomena is light
-    public static final short TEMP_PHENOMENA = 1;  //if the phenomena is temperature
+    public static final short LIGHT_PHENOMENA = 2;  //if the phenomena is light
+    public static final short TEMP_PHENOMENA = 3;  //if the phenomena is temperature
     
     public static final short ENERGY_INACTIVE_MOTE = 3;
     public static final short ENERGY_ACTIVE_MOTE = 25;
