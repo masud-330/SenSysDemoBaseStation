@@ -392,19 +392,7 @@ public class StartPanel extends javax.swing.JPanel {
                     
                     //TODO: Copy Top's code here directly to send the Setup packet!
                     SunSpotHostApplication.current_phenomena = (short)(jcomboType.getSelectedIndex()+2);
-                    long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
-                    String base_addr = IEEEAddress.toDottedHex(ourAddr);
-                    int[] arr = new int[Constants.VALUE_SIZE];
-                    System.out.println("base_addr: " + base_addr + " substring(15): " +
-                                       Integer.parseInt(base_addr.substring(15), 16));
-                    arr[0]= Integer.parseInt(base_addr.substring(15), 16); 
-                    arr[1]= time_temp;
-                    arr[2]= SunSpotHostApplication.current_phenomena; // waiting for the sensor type
-                    arr[3]= rwidth;
-                    arr[4]= rheight;
-                    SunSpotHostApplication.sendMessage(15, 4, arr, Constants.T1205_ID);
-                    System.out.println("print done setup");
-                    
+                    SunSpotHostApplication.send_setup();
                     //////////////////////////DONE/////////////////////////////////////////////
                     
                     String prenew="Energy Threshold, \u03B4 = "+Integer.toString(energy_temp)+" mA.\n"+"Time-Period, \u0194 = "+Integer.toString(time_temp)+" S.\n"

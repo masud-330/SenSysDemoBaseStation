@@ -16,7 +16,7 @@ public class Constants {
     public static final short AREA_WIDTH= 350;  //area width
     public static final short AREA_HEIGHT= 350;  //area size
     public static final short GAP_HEIGHT= AREA_HEIGHT/7;  //area gap
-     public static final short GAP_WIDTH= AREA_WIDTH/7;  //area gap
+    public static final short GAP_WIDTH= AREA_WIDTH/7;  //area gap
     
     public static final short TOTAL_MOTES = 36;
     
@@ -81,7 +81,7 @@ public class Constants {
     }
     
     public static short getNodeId(String addr){
-        if(nodeIds.contains(addr))
+        if(nodeIds.containsKey(addr))
             return nodeIds.get(addr).shortValue();
         return -1;    
     }

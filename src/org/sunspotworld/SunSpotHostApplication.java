@@ -47,25 +47,19 @@ public class SunSpotHostApplication {
     public static Vector<Object> currentObjects = new Vector<Object>();
     public static Vector<Rectangle> currentRectangle = new Vector<Rectangle>();
     public static Area area;
-    public static Area coverage;
-    
+    public static Area coverage; // width and height of the rectangle
+    public static int base_id = -1; // last 4 digits of the base id
     /**
      * Print out our radio address.
      */
     public void run() { 
       long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
+      String base_addr = IEEEAddress.toDottedHex(ourAddr);
       System.out.println("*** Startup the Base Station Program ***");        
-      System.out.println("Our radio address = " + IEEEAddress.toDottedHex(ourAddr));
-      
-      Tiny_connection base_broadcast = new Tiny_connection(Constants.BROADCAST_ID,
-                                                           Constants.CONNECTION_PORT,
-                                                           Constants.TELOSB_NODES);
-      // send the reset message
-      System.out.println("Send the reset message");
-      base_broadcast.send_reset();
-      base_broadcast.close();
-      base_broadcast = null;
-      
+      System.out.println("Our radio address = " + base_addr);
+      base_id = Integer.parseInt(base_addr.substring(15), 16);
+      initialize();
+      reset_telosb();
       Utils.sleep(100); // do not delete this line      
       System.out.println("Start the receiver thread");
       startReceiverThread();
@@ -74,7 +68,6 @@ public class SunSpotHostApplication {
         //TODO: Paste Top's Code here 
         //startReceiverThread(); //start the reciver thread to listen
         //-------------------------------------------------------------------------------
-        initialize();
         /*****GUI*////////////////////
         Tween.registerAccessor(ThePanel.class, new ThePanel.Accessor());
 	SLAnimator.start();
@@ -93,86 +86,41 @@ public class SunSpotHostApplication {
     
     ///////////////////////////////////TOP Receiver Function////////////////////////////////////////////////////////
     
-        public static void startReceiverThread() {
-         new Thread("Updating Thread") {
-           public void run() {
-             thread_message("In the updating thread");
-             //Tiny_connection rx_broadcast = new Tiny_connection(null,
-             //                                                   Constants.CONNECTION_PORT,
-             //                                                   Constants.TELOSB_NODES);
-             TinyOSRadioConnection conn=null; //tinyos connection
-             Datagram dg=null; //the message holder
-             try{
-               conn = (TinyOSRadioConnection) Connector.open("tinyos://:65");  //opens connection at channel 65
-               dg = conn.newDatagram(conn.getMaximumLength()); //sets up datagram
-             } catch (Exception e) {
-               System.out.println("Could not open tinyos receiver connection");
-               e.printStackTrace();
-               return;
-             }
+    public static void startReceiverThread() {
+     new Thread("Updating Thread") {
+       public void run() {
+         thread_message("In the updating thread");
+         Tiny_connection rx_broadcast = new Tiny_connection(null,
+                                                            Constants.CONNECTION_PORT,
+                                                            Constants.TELOSB_NODES);
 
-             int temp = 0;
+         int temp = 0;
 
-             while(true) {
-               Rx_package pck_rx = null;
-               Short x = 0;
-               // do {
-               //   thread_message("5555 Waiting for the data");
-               //   //pck_rx = rx_broadcast.receive();
-               // } while(pck_rx == null);
-               System.out.println("print y");
-               try {
-                 conn.receive(dg); //something is received, blocking wait
-                 System.out.println("print x");
-               } catch (Exception e) {
-                 e.printStackTrace();
-               }
-               continue;
-               // thread_message("Rx type: " + pck_rx.get_pck_type());
-               // if((sensor_type == 2) && (pck_rx.get_pck_type() == 8))
-               // {
-               //   int node_index = pck_rx.get_node_index();
-               //   lsensor_all.set(pck_rx.get_node_index(), pck_rx.get_payload()[0]);
-               //   thread_message("node index: " + node_index + 
-               //                  " val: " + pck_rx.get_payload()[0]);
-               // } else if((sensor_type == 3) && (pck_rx.get_pck_type() == 9))
-               // {
-               //   int node_index = pck_rx.get_node_index();
-               //   tsensor_all.set(pck_rx.get_node_index(), pck_rx.get_payload()[0]);
-               //   thread_message("node index: " + node_index + 
-               //                  " val: " + pck_rx.get_payload()[0]);
+         while(true) {
+           Rx_package pck_rx = null;
+           Short x = 0;
+           do {
+              thread_message("Waiting for the data");
+              pck_rx = rx_broadcast.receive();
+           } while(pck_rx == null);
 
-               // } else if(pck_rx.get_pck_type() == 7)
-               // {
-                 //print_data_dis(pck_rx);
-                 // temp++;
-                 // if(temp == 10)
-                 // {
-                 //   if(sensor_type == 2)
-                 //   {
-                 //     sensor_type = 3;
-                 //     lsensor_all = null;
-                 //     tsensor_all = new int[36];
-                 //     System.out.println("Sensor_type = 2 light -> = 3 temp");
-                 //   } else if(sensor_type == 3)
-                 //   {
-                 //     sensor_type = 2;
-                 //     lsensor_all = new int[36];
-                 //     tsensor_all = null;
-                 //     System.out.println("Sensor_type = temp -> = 2 light");            
-                 //   }
-
-                 // data = new int[]{10, sensor_type};
-                 // pck = new Rx_package(1, -1, T1205_ID, data);
-                 // rx_broadcast.send(1, pck, null);
-                 // System.out.println("Send a new setup package");
-                 // temp = 0;
-               // }      
-               // System.out.println("Temp " + temp + " sensor_type " + sensor_type);
-             }
-           }
-         }.start();
+           thread_message("Rx type: " + pck_rx.get_pck_type());           
+           if((pck_rx.get_pck_type() == 8) || (pck_rx.get_pck_type() == 9))
+           {
+             short node_index = (short) pck_rx.get_node_index();
+             thread_message("node index: " + node_index + 
+                            " val: " + pck_rx.get_payload()[0]);           
+             currentValues.set(node_index, pck_rx.get_payload()[0]);
+             thread_message("node index: " + node_index + 
+                            " val from v: " + currentValues.get(node_index)); 
+           } else if(pck_rx.get_pck_type() == 7)
+           {
+             System.out.println("Do sth else");
+           }      
+         }
        }
+     }.start();
+   }
 
             // Objective: a function for spots to send various type of messages
        // @type: int type of packages
@@ -238,6 +186,7 @@ public class SunSpotHostApplication {
     }
     
     void initialize(){
+        Constants.setAddresIDMapping();
         area = new Area(Constants.AREA_WIDTH, Constants.AREA_HEIGHT);
         coverage = new Area((short)80, (short)80);
         short def_val=40;
@@ -268,6 +217,27 @@ public class SunSpotHostApplication {
                                                 obj.weight));
         }
     }
-    
+  
+    public static void send_setup() {
+      int[] arr = new int[Constants.VALUE_SIZE];
+      arr[0]= base_id; 
+      arr[1]= time_period;
+      arr[2]= current_phenomena; // waiting for the sensor type
+      arr[3]= coverage.width;
+      arr[4]= coverage.height;
+      sendMessage(15, 4, arr, Constants.T1205_ID);
+      System.out.println("Sent the setup");
+    }
+
+    public static void reset_telosb() {
+      Tiny_connection base_broadcast = new Tiny_connection(Constants.BROADCAST_ID,
+                                                           Constants.CONNECTION_PORT,
+                                                           Constants.TELOSB_NODES);
+      // send the reset message
+      System.out.println("Send the reset message");
+      base_broadcast.send_reset();
+      base_broadcast.close();
+      base_broadcast = null;
+    }
 }
 

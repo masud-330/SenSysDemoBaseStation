@@ -3,6 +3,8 @@ package aurelienribon.slidinglayout.demo;
 import aurelienribon.slidinglayout.SLAnimator;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
+import com.sun.spot.peripheral.radio.RadioFactory;
+import com.sun.spot.util.IEEEAddress;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -34,6 +36,7 @@ import org.sunspotworld.Constants;
 import org.sunspotworld.SunSpotHostApplication;
 import static org.sunspotworld.SunSpotHostApplication.layer_type;
 import javax.swing.text.DefaultCaret;
+import org.sunspotworld.Area;
 
 /**
  * @author Aurelien Ribon | http://www.aurelienribon.com/
@@ -285,6 +288,8 @@ public class UserPanel extends JPanel {
                 //layer_add.setSelectedIndex(0);
                 
                        /*add pre*/
+                
+        //edit energy threshold
         add_pre.addActionListener(new ActionListener() {           //************* we add predicate here
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");
@@ -294,8 +299,44 @@ public class UserPanel extends JPanel {
                     //System.out.print(area_temp);
                     //System.out.println("area: "+area_temp+" threshold: "+thre_temp+" layer: "+layer_add.getSelectedIndex());
                     //***************send temp out
+                    //
+                    int energy_temp = Integer.parseInt(threshold_add.getText());
+                    //Compute Rectangle Area from Energy Threshold
+                    // Not transmitting telosb = 2.5 mA
+                    // Transmitting telosb = 20 mA
+                    int k=(energy_temp/Constants.ENERGY_ACTIVE_MOTE);
+                    if (k%2 == 1 && k!=9 && k!=25){
+                        k++;
+                    }
+                    double area = (k * k * (Constants.AREA_HEIGHT-100)* (Constants.AREA_WIDTH-100)) / Constants.TOTAL_MOTES;
                     
-
+                    short a=1, b=1;
+                    if(k==1 || k==4 || k==9 || k==16 || k==25 || k==36){
+                        a=(short) Math.sqrt(k);
+                        b=a;
+                    }
+                    if(k==2) {a=2; b=1;}
+                    if(k==6) {a=3; b=2;}
+                    if(k==8) {a=4; b=2;}
+                    if(k==10) {a=5; b=2;}
+                    if(k==12) {a=4; b=3;}
+                    if(k==14) {a=6; b=2;}
+                    if(k==18) {a=6; b=3;}
+                    if(k==20 || k==2) {a=5; b =4;}
+                    if(k==24 || k==26 || k==28) {a=6; b=4;}
+                    if(k==30 || k==32 || k==34) {a=6; b=5;}
+                    if(k==36) {a=6; b=6;}
+                    ////////////////////////////////////////////////////////////////////////////////////////////
+                    
+                    short x = (short)Math.sqrt(area/ (a*a*b*b));
+                    short rheight = (short) (b*x);  ///rectangle size
+                    short rwidth = (short) (a*x);
+                    
+                    if(rwidth % 2 == 1) rwidth+=1;
+                    if(rheight % 2 == 1) rheight+=1;
+                    
+                    SunSpotHostApplication.coverage = new Area(rwidth, rheight);
+                    SunSpotHostApplication.send_setup();
                     
                     String prenew=" ";
 
@@ -309,11 +350,12 @@ public class UserPanel extends JPanel {
         });
         
                /* add coocurence */
-
+                /// Time-period
         add_cooc.addActionListener(new ActionListener() {           //************* we add predicate here
             public void actionPerformed(ActionEvent e) {
-
-                    
+                       
+                    SunSpotHostApplication.time_period = Short.parseShort(area_field_add.getText());
+                    SunSpotHostApplication.send_setup();
                     String prenew="Put Something Good";
 
                     predicate_show.append(prenew);
@@ -322,11 +364,14 @@ public class UserPanel extends JPanel {
             }
         });
         
+          ////  event type //phenomena
         add_event.addActionListener(new ActionListener() {           //************* we add predicate here
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");                    
                     String prenew="Put Something Good";
-
+                    
+                    SunSpotHostApplication.current_phenomena = (short) (layer_add.getSelectedIndex() + 2);
+                    SunSpotHostApplication.send_setup();
                     predicate_show.append(prenew);
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,second);
@@ -345,7 +390,8 @@ public class UserPanel extends JPanel {
             }
         });
         
-                /* go back, RESET */
+                
+        /* go back, RESET*/
         newexp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");
@@ -354,6 +400,8 @@ public class UserPanel extends JPanel {
                 SunSpotHostApplication.OurHC=0;
                 SunSpotHostApplication.task.stop();
                 logs.setText("");
+                
+                SunSpotHostApplication.reset_telosb();
                 //clearing shape_receieve in reset click
                   SunSpotHostApplication.task.stop();
                   SunSpotHostApplication.frame.shapePanel.repaint();

@@ -173,7 +173,9 @@ public class Tiny_connection
       tiny_connection.receive(dg);             // a blocking call
       String dst_addr = dg.getAddress();
       int pck_type = dg.readByte();      
-      System.out.println("\n\n\nReceive a package from " + dst_addr);
+      String last4addr = last_4addr(dst_addr);
+      System.out.println("\n\n\nReceive a package from " + dst_addr + " last4addr: " + last4addr);
+      
       
       int node_index = Constants.getNodeId(last_4addr(dst_addr));
       if(node_index == -1)
@@ -270,6 +272,6 @@ public class Tiny_connection
   
   public String last_4addr(String addr) {
     // "0014.4F01.0000.7F42" -> "7F42"
-    return addr.substring(15, addr.length());
+    return addr.substring(15);
   }
 }
