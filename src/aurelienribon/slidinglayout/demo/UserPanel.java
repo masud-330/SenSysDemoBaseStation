@@ -324,9 +324,7 @@ public class UserPanel extends JPanel {
         
         add_event.addActionListener(new ActionListener() {           //************* we add predicate here
             public void actionPerformed(ActionEvent e) {
-                //print_name.setText("");
-
-                    
+                //print_name.setText("");                    
                     String prenew="Put Something Good";
 
                     predicate_show.append(prenew);

@@ -27,6 +27,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import org.sunspotworld.*;
+import com.sun.spot.peripheral.radio.RadioFactory;
+import com.sun.spot.util.IEEEAddress;
 
 /**
  *
@@ -389,6 +391,21 @@ public class StartPanel extends javax.swing.JPanel {
                     System.out.println(k+" "+rwidth +"---------"+rheight);
                     
                     //TODO: Copy Top's code here directly to send the Setup packet!
+                    SunSpotHostApplication.current_phenomena = (short)(jcomboType.getSelectedIndex()+2);
+                    long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
+                    String base_addr = IEEEAddress.toDottedHex(ourAddr);
+                    int[] arr = new int[Constants.VALUE_SIZE];
+                    System.out.println("base_addr: " + base_addr + " substring(15): " +
+                                       Integer.parseInt(base_addr.substring(15), 16));
+                    arr[0]= Integer.parseInt(base_addr.substring(15), 16); 
+                    arr[1]= time_temp;
+                    arr[2]= SunSpotHostApplication.current_phenomena; // waiting for the sensor type
+                    arr[3]= rwidth;
+                    arr[4]= rheight;
+                    SunSpotHostApplication.sendMessage(15, 4, arr, Constants.T1205_ID);
+                    System.out.println("print done setup");
+                    
+                    //////////////////////////DONE/////////////////////////////////////////////
                     
                     String prenew="Energy Threshold, \u03B4 = "+Integer.toString(energy_temp)+" mA.\n"+"Time-Period, \u0194 = "+Integer.toString(time_temp)+" S.\n"
                             +"Phenomena Type = "+SunSpotHostApplication.layer_type[jcomboType.getSelectedIndex()]+". \n"+"Rectangle Size = ("+rwidth+","+rheight+"). \n"
