@@ -13,3 +13,6 @@ hs_err_pid*
 
 # Temporary files
 *~
+
+# private files for specific computer
+nbproject/
