@@ -14,6 +14,7 @@ public class Rx_package {
   private int node_index = -1;
   private String dst_addr = null;
   private short[] payload = null;
+  private Window win = null;
 
   public Rx_package(int pck_type, int node_index,
                     String dest_addr, short[] data)
@@ -26,6 +27,14 @@ public class Rx_package {
     
     this.payload = new short[data.length];
     System.arraycopy(data, 0, this.payload, 0, data.length);    
+  }
+  
+  public Rx_package(int pck_type, int node_index, 
+                    String dest_addr, Window win) {
+      this.pck_type = pck_type;
+      this.node_index = node_index;
+      this.dst_addr = dest_addr;
+      this.win = win;
   }
 
   public int get_pck_type() {
@@ -42,6 +51,10 @@ public class Rx_package {
 
   public short[] get_payload() {
     return this.payload;
+  }
+  
+  public Window get_window() {
+      return this.win;
   }
 
   public void set_payload(int i, short val) {

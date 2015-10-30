@@ -8,7 +8,7 @@ package org.sunspotworld;
 
 /**
  *
- * @author Muhammed
+ * @author Muhammed Masud
  */
 public class Area
 {

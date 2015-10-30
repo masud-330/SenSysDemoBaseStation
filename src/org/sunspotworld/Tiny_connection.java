@@ -230,11 +230,18 @@ public class Tiny_connection
                              temp);                        
       } else if(pck_type == 7)
       {
+        /*
         short[] temp = new short[32];
         for(int i = 0; i < 32; i++)
           temp[i] = dg.readShort();
         res = new Rx_package(pck_type, node_index, dst_addr, temp);
-        
+        */
+        short wl = dg.readShort();
+        short wr = dg.readShort();
+        short wh = dg.readShort();
+        short wscore = dg.readShort();
+        Window opt_win = new Window(wl, wr, wh, wscore);
+        res = new Rx_package(pck_type, node_index, dst_addr, opt_win);
       } else if((pck_type == 8) || (pck_type == 9))
       {
         short[] temp = new short[1];
