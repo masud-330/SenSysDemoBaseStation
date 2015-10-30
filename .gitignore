@@ -15,4 +15,4 @@ hs_err_pid*
 *~
 
 # private files for specific computer
-nbproject/
+#nbproject/
