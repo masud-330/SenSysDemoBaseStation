@@ -388,6 +388,7 @@ public class StartPanel extends javax.swing.JPanel {
                     SunSpotHostApplication.coverage = new Area(rwidth, rheight);
                     SunSpotHostApplication.enclosed_objects_no = (short)k;
                     SunSpotHostApplication.time_period = (short) time_temp;
+                    SunSpotHostApplication.energy_thresh = (short)energy_temp;
                     System.out.println(k+" "+rwidth +"---------"+rheight);
                     
                     //TODO: Copy Top's code here directly to send the Setup packet!
@@ -401,7 +402,7 @@ public class StartPanel extends javax.swing.JPanel {
                 
                     UserPanel.predicate_show.append(prenew);
                     
-                    String lognew = "Parameters Received. \n";
+                    String lognew = "New Parameters Received. \n";
                     UserPanel.logs.append(lognew);
                     //CardLayout cl = (CardLayout)(cards.getLayout());
                     //cl.show(cards,second);

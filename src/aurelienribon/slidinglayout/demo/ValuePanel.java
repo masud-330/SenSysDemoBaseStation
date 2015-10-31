@@ -160,8 +160,8 @@ public class ValuePanel extends JPanel {
                     int alpha = 100;
                     
                     alpha = (int)((showValues[i]/100.00) * 255.0);
-                    if(alpha>255){
-                        alpha=255;
+                    if(alpha>=255){
+                        alpha=254;
                     }
                     
                    // = (SunSpotHostApplication.currentValues.get(i))

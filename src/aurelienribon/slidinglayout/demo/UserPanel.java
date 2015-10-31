@@ -336,11 +336,16 @@ public class UserPanel extends JPanel {
                     if(rheight % 2 == 1) rheight+=1;
                     
                     SunSpotHostApplication.coverage = new Area(rwidth, rheight);
+                    SunSpotHostApplication.enclosed_objects_no = (short)k;
+                    SunSpotHostApplication.energy_thresh = (short) energy_temp;
                     SunSpotHostApplication.send_setup();
                     
-                    String prenew=" ";
+                    String prenew="Energy Threshold, \u03B4 = "+Integer.toString(SunSpotHostApplication.energy_thresh)+" mA.\n"+"Time-Period, \u0194 = "+Integer.toString(SunSpotHostApplication.time_period)+" S.\n"
+                            +"Phenomena Type = "+SunSpotHostApplication.layer_type[layer_add.getSelectedIndex()]+". \n"+"Rectangle Size = ("+SunSpotHostApplication.coverage.width+","+SunSpotHostApplication.coverage.height+"). \n"
+                            +"No of Active Nodes = "+SunSpotHostApplication.enclosed_objects_no+". \n";
 
-                    predicate_show.append(prenew);
+                    predicate_show.setText(prenew);
+                    logs.append("Energy Threshold Modified.");
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,second);
                     //layer_add.setSelectedIndex(0);
@@ -356,9 +361,11 @@ public class UserPanel extends JPanel {
                        
                     SunSpotHostApplication.time_period = Short.parseShort(area_field_add.getText());
                     SunSpotHostApplication.send_setup();
-                    String prenew="Put Something Good";
-
-                    predicate_show.append(prenew);
+                    String prenew="Energy Threshold, \u03B4 = "+Integer.toString(SunSpotHostApplication.energy_thresh)+" mA.\n"+"Time-Period, \u0194 = "+Integer.toString(SunSpotHostApplication.time_period)+" S.\n"
+                            +"Phenomena Type = "+SunSpotHostApplication.layer_type[layer_add.getSelectedIndex()]+". \n"+"Rectangle Size = ("+SunSpotHostApplication.coverage.width+","+SunSpotHostApplication.coverage.height+"). \n"
+                            +"No of Active Nodes = "+SunSpotHostApplication.enclosed_objects_no+". \n";
+                    predicate_show.setText(prenew);
+                    logs.append("Time-period Modified.");
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,second);
             }
@@ -367,12 +374,14 @@ public class UserPanel extends JPanel {
           ////  event type //phenomena
         add_event.addActionListener(new ActionListener() {           //************* we add predicate here
             public void actionPerformed(ActionEvent e) {
-                //print_name.setText("");                    
-                    String prenew="Put Something Good";
-                    
+                //print_name.setText("");                        
                     SunSpotHostApplication.current_phenomena = (short) (layer_add.getSelectedIndex() + 2);
                     SunSpotHostApplication.send_setup();
-                    predicate_show.append(prenew);
+                    String prenew="Energy Threshold, \u03B4 = "+Integer.toString(SunSpotHostApplication.energy_thresh)+" mA.\n"+"Time-Period, \u0194 = "+Integer.toString(SunSpotHostApplication.time_period)+" S.\n"
+                            +"Phenomena Type = "+SunSpotHostApplication.layer_type[layer_add.getSelectedIndex()]+". \n"+"Rectangle Size = ("+SunSpotHostApplication.coverage.width+","+SunSpotHostApplication.coverage.height+"). \n"
+                            +"No of Active Nodes = "+SunSpotHostApplication.enclosed_objects_no+". \n";
+                    predicate_show.setText(prenew);
+                    logs.append("Phenomena Type Modified.");
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,second);
                     layer_add.setSelectedIndex(0);
@@ -381,6 +390,8 @@ public class UserPanel extends JPanel {
         
         
         /*add new exp */
+        ///Energy Threshold
+        //Ask top?
         addexp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //print_name.setText("");
