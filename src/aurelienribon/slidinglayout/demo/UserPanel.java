@@ -345,7 +345,7 @@ public class UserPanel extends JPanel {
                             +"No of Active Nodes = "+SunSpotHostApplication.enclosed_objects_no+". \n";
 
                     predicate_show.setText(prenew);
-                    logs.append("Energy Threshold Modified.");
+                    logs.append("Energy Threshold Modified.\n");
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,second);
                     //layer_add.setSelectedIndex(0);
@@ -365,7 +365,7 @@ public class UserPanel extends JPanel {
                             +"Phenomena Type = "+SunSpotHostApplication.layer_type[layer_add.getSelectedIndex()]+". \n"+"Rectangle Size = ("+SunSpotHostApplication.coverage.width+","+SunSpotHostApplication.coverage.height+"). \n"
                             +"No of Active Nodes = "+SunSpotHostApplication.enclosed_objects_no+". \n";
                     predicate_show.setText(prenew);
-                    logs.append("Time-period Modified.");
+                    logs.append("Time-period Modified.\n");
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,second);
             }
@@ -381,7 +381,7 @@ public class UserPanel extends JPanel {
                             +"Phenomena Type = "+SunSpotHostApplication.layer_type[layer_add.getSelectedIndex()]+". \n"+"Rectangle Size = ("+SunSpotHostApplication.coverage.width+","+SunSpotHostApplication.coverage.height+"). \n"
                             +"No of Active Nodes = "+SunSpotHostApplication.enclosed_objects_no+". \n";
                     predicate_show.setText(prenew);
-                    logs.append("Phenomena Type Modified.");
+                    logs.append("Phenomena Type Modified.\n");
                     CardLayout cl = (CardLayout)(cards.getLayout());
                     cl.show(cards,second);
                     layer_add.setSelectedIndex(0);

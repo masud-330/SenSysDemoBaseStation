@@ -37,7 +37,9 @@ public class Constants {
     public static final String T1205_ID = "0014.4F01.0000.1205";
     public static final String BROADCAST_ID = "0014.4F01.0000.FFFF";
     public static final String[] TELOSB_NODES = {"1205"}; 
-    public static final int CONNECTION_PORT = 65; 
+    public static final int CONNECTION_PORT = 65;
+    public static final int CEN_HOP_COUNT = 161;
+    public static final int DIS_HOP_COUNT = 46;
     
     public static Hashtable<String, Integer> nodeIds= new Hashtable<String, Integer>();
     

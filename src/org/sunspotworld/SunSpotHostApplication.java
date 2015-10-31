@@ -55,6 +55,7 @@ public class SunSpotHostApplication {
      */
     public void run() { 
       long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
+      //7F38
       String base_addr = IEEEAddress.toDottedHex(ourAddr);
       System.out.println("*** Startup the Base Station Program ***");        
       System.out.println("Our radio address = " + base_addr);
@@ -88,14 +89,12 @@ public class SunSpotHostApplication {
     ///////////////////////////////////TOP Receiver Function////////////////////////////////////////////////////////
     
     public static void startReceiverThread() {
-     new Thread("Updating Thread") {
+     new Thread("Receiver Thread") {
        public void run() {
          thread_message("In the updating thread");
          Tiny_connection rx_broadcast = new Tiny_connection(null,
                                                             Constants.CONNECTION_PORT,
                                                             Constants.TELOSB_NODES);
-
-         int temp = 0;
 
          while(true) {
            Rx_package pck_rx = null;
@@ -122,8 +121,12 @@ public class SunSpotHostApplication {
                  } else 
                      currentValues.set(node_index, pck_rx.get_payload()[0]);
              }  
-           } else if(pck_rx.get_pck_type() == 7)
+           } else if(pck_rx.get_pck_type() == 7) {
              Opt_Window = pck_rx.get_window();
+             OurHC += Constants.DIS_HOP_COUNT;
+             BruteHC += Constants.CEN_HOP_COUNT;
+             System.out.println(OurHC+" "+BruteHC);
+           }
          }
        }
      }.start();
@@ -196,15 +199,15 @@ public class SunSpotHostApplication {
         Constants.setAddresIDMapping();
         area = new Area(Constants.AREA_WIDTH, Constants.AREA_HEIGHT);
         coverage = new Area((short)80, (short)80);
-        short def_val=40;
+        short def_val=100;
         if(current_phenomena == Constants.TEMP_PHENOMENA){
             def_val=75;
         }
         //setting up the sliding GUI
-        for(int i=0; i<Constants.TOTAL_MOTES;i++){
+      /*  for(int i=0; i<Constants.TOTAL_MOTES;i++){
             short t=40;
             currentValues.add(t);
-        }
+        }*/
         
         short offsetw = Constants.AREA_WIDTH/7;
         short offseth = Constants.AREA_HEIGHT/7;
