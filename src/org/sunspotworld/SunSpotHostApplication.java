@@ -109,14 +109,20 @@ public class SunSpotHostApplication {
            {
              short node_index = (short) pck_rx.get_node_index();
              thread_message("node index: " + node_index + 
-                            " val: " + pck_rx.get_payload()[0]);           
-             currentValues.set(node_index, pck_rx.get_payload()[0]);
-             thread_message("node index: " + node_index + 
-                            " val from v: " + currentValues.get(node_index)); 
+                            " val: " + pck_rx.get_payload()[0]);    
+             
+             if(pck_rx.get_pck_type() == 8)
+                currentValues.set(node_index, pck_rx.get_payload()[0]);
+             else if(pck_rx.get_pck_type() == 9) {
+                 if(Constants.isTelos(node_index)) {
+                     double temp_c = raw_temp_to_c(pck_rx.get_payload()[0]);
+                     short farenheit = (short) (((9.0*temp_c)/5.0)+32.0);
+                     currentValues.set(node_index, farenheit);
+                 } else 
+                     currentValues.set(node_index, pck_rx.get_payload()[0]);
+             }  
            } else if(pck_rx.get_pck_type() == 7)
-           {
              Opt_Window = pck_rx.get_window();
-           }      
          }
        }
      }.start();
@@ -166,8 +172,8 @@ public class SunSpotHostApplication {
          }
        }
 
-       public static long raw_temp_to_c(short raw) {
-         return (long) (-38.4 + 0.0098 * ((long) raw));
+       public static double raw_temp_to_c(short raw) {
+         return (double) (-38.4 + 0.0098 * ((double) raw));
        }
 
 

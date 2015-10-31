@@ -81,6 +81,11 @@ public class Constants {
     }
     
     public static short getNodeId(String addr){
+        String addr2=addr;
+        if(addr.length()==19){
+            addr2=addr.substring(15);
+        }
+        
         if(nodeIds.containsKey(addr))
             return nodeIds.get(addr).shortValue();
         return -1;    
