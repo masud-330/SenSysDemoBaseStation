@@ -28,7 +28,6 @@ public class Tiny_connection
   private Datagram dg = null;
   private String dst_addr = null;
   private int port = -1;
-  private final int broadcast_constant = 0xFF;
   private String[] telosb_nodes = null;
   
   // constructor
@@ -96,7 +95,7 @@ public class Tiny_connection
         // We send the message (UTF encoded)
         dg.reset();
         dg.writeByte(0);
-        dg.writeByte(broadcast_constant);
+        dg.writeByte(Constants.BROADCAST_CONSTANT);
         tiny_connection.send(dg);
         System.out.println("Reset Sent");
         return true;

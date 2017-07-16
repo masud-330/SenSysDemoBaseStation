@@ -51,408 +51,407 @@ public class UserPanel extends JPanel {
 	private boolean actionEnabled = true;
 	private boolean hover = false;
 	private int borderThickness = 2;
-        private Dimension fixedSize;
-        public static JTextArea logs = new JTextArea();
-        public static JTextArea predicate_show = new JTextArea();
-        public static JPanel cards;
-        final static String second = "card for add second";
-        final static String third = "card for add third";
-        final static String forth = "card for cooc";
-        final static String fifth = "card for event";
-        static boolean flag=false;    
-        static String errorlabel;
-        public static JLabel hopLabel = new JLabel("Hopcoount (brute/: ");
+  private Dimension fixedSize;
+  public static JTextArea logs = new JTextArea();
+  public static JTextArea predicate_show = new JTextArea();
+  public static JPanel cards;
+  final static String second = "card for add second";
+  final static String third = "card for add third";
+  final static String forth = "card for cooc";
+  final static String fifth = "card for event";
+  static boolean flag=false;    
+  static String errorlabel;
+  public static JLabel hopLabel = new JLabel("Hopcoount (brute/: ");
         
 
 	public UserPanel(Dimension d) {
 		//this.setLayout(c);
-                cards=new JPanel(new CardLayout());
-                fixedSize=d;
-                setBackground(BG_COLOR);
+    cards=new JPanel(new CardLayout());
+    fixedSize=d;
+    setBackground(BG_COLOR);
 		setLayout(new BorderLayout());
                
-                final JPanel controlP=new JPanel();
-                JPanel add=new JPanel();
-                JPanel cooc = new JPanel();
-                JPanel event = new JPanel();
+    final JPanel controlP=new JPanel();
+    JPanel add=new JPanel();
+    JPanel cooc = new JPanel();
+    JPanel event = new JPanel();
                 
-                /////fillers, ugly coding..
-                JLabel fillers[] = new JLabel[16];
-                for(int i=0; i<fillers.length;i++){
-                    fillers[i]=new JLabel("                                                                             ");;
-                }
-                int textBoxWidth = (int)(0.8*fixedSize.width);
-                int textBoxHeight = (int)(((float)0.28)*fixedSize.height);
+    /////fillers, ugly coding..
+    JLabel fillers[] = new JLabel[16];
+    for(int i=0; i<fillers.length;i++){
+      fillers[i]=new JLabel("                                                                             ");;
+    }
+    int textBoxWidth = (int)(0.8*fixedSize.width);
+    int textBoxHeight = (int)(((float)0.28)*fixedSize.height);
                 
                 
-                /* for add page*/
+    /* for add page*/
                 
-                int locx=10, locy=10;
-                JButton add_pre = new JButton("           Send \u03B4           ");
-                add_pre.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                add_pre.setSize(300, 35);
+    int locx=10, locy=10;
+    JButton add_pre = new JButton("           Send \u03B4           ");
+    add_pre.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    add_pre.setSize(300, 35);
 
-                final TextField threshold_add = new TextField();
-                threshold_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                threshold_add.setColumns(20);
-                threshold_add.setSize(200, 35);
+    final TextField threshold_add = new TextField();
+    threshold_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    threshold_add.setColumns(20);
+    threshold_add.setSize(200, 35);
                 
-                JLabel shres_add_labor = new JLabel("                     Energy Threshold, \u03B4 (mA)           ", JLabel.TRAILING);
-                shres_add_labor.setLabelFor(threshold_add);
-                shres_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                shres_add_labor.setSize(325, 20);
+    JLabel shres_add_labor = new JLabel("                     Energy Threshold, \u03B4 (mA)           ", JLabel.TRAILING);
+    shres_add_labor.setLabelFor(threshold_add);
+    shres_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    shres_add_labor.setSize(325, 20);
 
-                //final TextField area_field_add = new TextField();
-                //area_field_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                //area_field_add.setColumns(20);
-                //area_field_add.setSize(200, 35);
-               // JLabel area_add_labor = new JLabel("               Minimum Area              ", JLabel.TRAILING);
-               // area_add_labor.setLabelFor(area_field_add);
-                //area_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                //area_add_labor.setSize(325, 20);
+    //final TextField area_field_add = new TextField();
+    //area_field_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    //area_field_add.setColumns(20);
+    //area_field_add.setSize(200, 35);
+    // JLabel area_add_labor = new JLabel("               Minimum Area              ", JLabel.TRAILING);
+    // area_add_labor.setLabelFor(area_field_add);
+    //area_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    //area_add_labor.setSize(325, 20);
 
-                //final JComboBox layer_add=new JComboBox();
-                //layer_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                //layer_add.setSize(200, 35);
-                //JLabel layer_add_labor=new JLabel("                     Event Type                     ", JLabel.TRAILING);
-                //layer_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                //layer_add_labor.setSize(325, 20);
-                //layer_add_labor.setLabelFor(layer_add);
-                //layer_add.addItem("Light");
-                //layer_add.addItem("Temperature");
+    //final JComboBox layer_add=new JComboBox();
+    //layer_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    //layer_add.setSize(200, 35);
+    //JLabel layer_add_labor=new JLabel("                     Event Type                     ", JLabel.TRAILING);
+    //layer_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    //layer_add_labor.setSize(325, 20);
+    //layer_add_labor.setLabelFor(layer_add);
+    //layer_add.addItem("Light");
+    //layer_add.addItem("Temperature");
                 
-                shres_add_labor.setLocation(locx, locy);
-                locy+=40;
-                locx+=120;
-                threshold_add.setLocation(locx, locy);
-                //locy+=60;
-                //locx-=120;
-                locy+=85;
-                locx-=45;
-                add_pre.setLocation(locx, locy);
+    shres_add_labor.setLocation(locx, locy);
+    locy+=40;
+    locx+=120;
+    threshold_add.setLocation(locx, locy);
+    //locy+=60;
+    //locx-=120;
+    locy+=85;
+    locx-=45;
+    add_pre.setLocation(locx, locy);
                 
                 
-                add.setLayout(null);
-                add.add(shres_add_labor);
-                //add.add(fillers[4]);
-                add.add(threshold_add);
-                //add.add(fillers[5]);
-                //add.add(fillers[9]);
-                add.add(add_pre);
+    add.setLayout(null);
+    add.add(shres_add_labor);
+    //add.add(fillers[4]);
+    add.add(threshold_add);
+    //add.add(fillers[5]);
+    //add.add(fillers[9]);
+    add.add(add_pre);
                 
-                /* for occurence panel*/
-                JButton add_cooc = new JButton("       Send \u0194      ");
-                add_cooc.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                add_cooc.setSize(300, 35);
+    /* for occurence panel*/
+    JButton add_cooc = new JButton("       Send \u0194      ");
+    add_cooc.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    add_cooc.setSize(300, 35);
                 
-                final TextField area_field_add = new TextField();
-                area_field_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                area_field_add.setColumns(20);
-                area_field_add.setSize(200, 35);
-                JLabel area_add_labor = new JLabel("               Time-Period, \u0194 (S)             ", JLabel.TRAILING);
-                area_add_labor.setLabelFor(area_field_add);
-                area_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                area_add_labor.setSize(325, 20);
+    final TextField area_field_add = new TextField();
+    area_field_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    area_field_add.setColumns(20);
+    area_field_add.setSize(200, 35);
+    JLabel area_add_labor = new JLabel("               Time-Period, \u0194 (S)             ", JLabel.TRAILING);
+    area_add_labor.setLabelFor(area_field_add);
+    area_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    area_add_labor.setSize(325, 20);
                  
-                locx=10; locy=10;
-                area_add_labor.setLocation(locx, locy);
+    locx=10; locy=10;
+    area_add_labor.setLocation(locx, locy);
                 
-                locy+=40;
-                locx+=120;
-                area_field_add.setLocation(locx, locy);
+    locy+=40;
+    locx+=120;
+    area_field_add.setLocation(locx, locy);
                 
-                locy+=85;
-                locx-=45;
-                add_cooc.setLocation(locx, locy);
+    locy+=85;
+    locx-=45;
+    add_cooc.setLocation(locx, locy);
                 
-                cooc.setLayout(null);
-                cooc.add(area_add_labor);
-                //cooc.add(fillers[0]);
-                cooc.add(area_field_add);                
-                //cooc.add(fillers[1]);
-                //cooc.add(fillers[2]);                
-                cooc.add(add_cooc);
+    cooc.setLayout(null);
+    cooc.add(area_add_labor);
+    //cooc.add(fillers[0]);
+    cooc.add(area_field_add);                
+    //cooc.add(fillers[1]);
+    //cooc.add(fillers[2]);                
+    cooc.add(add_cooc);
                 
                 
-                JButton add_event = new JButton("       Send Event      ");
-                add_event.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                add_event.setSize(300, 35);
+    JButton add_event = new JButton("       Send Event      ");
+    add_event.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    add_event.setSize(300, 35);
                 
-                final JComboBox layer_add=new JComboBox();
-                layer_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                layer_add.setSize(200, 35);
-                JLabel layer_add_labor=new JLabel("                     Event Type                     ", JLabel.TRAILING);
-                layer_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                layer_add_labor.setSize(325, 20);
-                layer_add_labor.setLabelFor(layer_add);
-                layer_add.addItem("Light");
-                layer_add.addItem("Temperature");
+    final JComboBox layer_add=new JComboBox();
+    layer_add.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    layer_add.setSize(200, 35);
+    JLabel layer_add_labor=new JLabel("                     Event Type                     ", JLabel.TRAILING);
+    layer_add_labor.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    layer_add_labor.setSize(325, 20);
+    layer_add_labor.setLabelFor(layer_add);
+    layer_add.addItem("Light");
+    layer_add.addItem("Temperature");
                 
-                locx=10; locy=10;
-                layer_add_labor.setLocation(locx, locy);
+    locx=10; locy=10;
+    layer_add_labor.setLocation(locx, locy);
                 
-                locy+=40;
-                locx+=120;
-                layer_add.setLocation(locx, locy);
+    locy+=40;
+    locx+=120;
+    layer_add.setLocation(locx, locy);
                 
-                locy+=85;
-                locx-=45;
-                add_event.setLocation(locx, locy);
+    locy+=85;
+    locx-=45;
+    add_event.setLocation(locx, locy);
                 
-                event.setLayout(null);
-                event.add(layer_add_labor);
-                //cooc.add(fillers[0]);
-                event.add(layer_add);                
-                //cooc.add(fillers[1]);
-                //cooc.add(fillers[2]);                
-                event.add(add_event);               
+    event.setLayout(null);
+    event.add(layer_add_labor);
+    //cooc.add(fillers[0]);
+    event.add(layer_add);                
+    //cooc.add(fillers[1]);
+    //cooc.add(fillers[2]);                
+    event.add(add_event);               
                 
-                /* for control page */
-                controlP.setPreferredSize(new Dimension(fixedSize.width, fixedSize.height));
+    /* for control page */
+    controlP.setPreferredSize(new Dimension(fixedSize.width, fixedSize.height));
 
-                predicate_show.setEditable(false);
-                ////////Masud's addition
-                DefaultCaret caret = (DefaultCaret)logs.getCaret();
-                caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-                DefaultCaret caret2 = (DefaultCaret)predicate_show.getCaret();
-                caret2.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-                //predicate_show.append("Es#(Threshold, Area, time)\n");
-                //predicate.append("Es2(90, 50, now)\n");
-                //predicate.append("Eco1(Es1, Es1, 20, 0)\n");
-                JScrollPane areaScrollPane = new JScrollPane(predicate_show);
-                areaScrollPane.setVerticalScrollBarPolicy(
-                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-                areaScrollPane.setPreferredSize(new Dimension(textBoxWidth, (int)(textBoxHeight*0.75)));
-                TitledBorder titleBorder = BorderFactory.createTitledBorder("Parameters");
-                titleBorder.setTitleFont(new Font("SansSerif", Font.BOLD, 15));
-                areaScrollPane.setBorder(
-                        BorderFactory.createCompoundBorder(
-                                BorderFactory.createCompoundBorder(
-                                       titleBorder,
-                                        BorderFactory.createEmptyBorder(2,2,2,2)),
-                                areaScrollPane.getBorder()));
-                predicate_show.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    predicate_show.setEditable(false);
+    ////////Masud's addition
+    DefaultCaret caret = (DefaultCaret)logs.getCaret();
+    caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+    DefaultCaret caret2 = (DefaultCaret)predicate_show.getCaret();
+    caret2.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+    //predicate_show.append("Es#(Threshold, Area, time)\n");
+    //predicate.append("Es2(90, 50, now)\n");
+    //predicate.append("Eco1(Es1, Es1, 20, 0)\n");
+    JScrollPane areaScrollPane = new JScrollPane(predicate_show);
+    areaScrollPane.setVerticalScrollBarPolicy(
+      JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+    areaScrollPane.setPreferredSize(new Dimension(textBoxWidth, (int)(textBoxHeight*0.75)));
+    TitledBorder titleBorder = BorderFactory.createTitledBorder("Parameters");
+    titleBorder.setTitleFont(new Font("SansSerif", Font.BOLD, 15));
+    areaScrollPane.setBorder(
+      BorderFactory.createCompoundBorder(
+        BorderFactory.createCompoundBorder(
+          titleBorder,
+          BorderFactory.createEmptyBorder(2,2,2,2)),
+        areaScrollPane.getBorder()));
+    predicate_show.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
 
 
-                //logs.append("Es1 occurred\n");
-                //logs.append("Es2 occurred\n");
-                logs.setEditable(false);
-                JScrollPane logs_scroll = new JScrollPane(logs);
-                logs_scroll.setVerticalScrollBarPolicy(
-                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-                logs_scroll.setPreferredSize(new Dimension(textBoxWidth, textBoxHeight));
-                titleBorder = BorderFactory.createTitledBorder("Logs");
-                titleBorder.setTitleFont(new Font("SansSerif", Font.BOLD, 15));
-                logs_scroll.setBorder(
-                        BorderFactory.createCompoundBorder(
-                                BorderFactory.createCompoundBorder(
-                                        titleBorder,
-                                        BorderFactory.createEmptyBorder(2,2,2,2)),
-                                logs_scroll.getBorder()));
-                logs.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    //logs.append("Es1 occurred\n");
+    //logs.append("Es2 occurred\n");
+    logs.setEditable(false);
+    JScrollPane logs_scroll = new JScrollPane(logs);
+    logs_scroll.setVerticalScrollBarPolicy(
+      JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+    logs_scroll.setPreferredSize(new Dimension(textBoxWidth, textBoxHeight));
+    titleBorder = BorderFactory.createTitledBorder("Logs");
+    titleBorder.setTitleFont(new Font("SansSerif", Font.BOLD, 15));
+    logs_scroll.setBorder(
+      BorderFactory.createCompoundBorder(
+        BorderFactory.createCompoundBorder(
+          titleBorder,
+          BorderFactory.createEmptyBorder(2,2,2,2)),
+        logs_scroll.getBorder()));
+    logs.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
-                JButton newexp=new JButton("            Reset Parameters            ");
-                //JButton addexp=new JButton("                Modify \u03B4                ");
-                //JButton gotocooc=new JButton("           Modify \u0194           ");
-                JButton addexp=new JButton("           Edit Energy T-hold, mA (\u03B4)           ");
-                JButton gotocooc=new JButton("           Edit Time-Period, S (\u0194)           ");
-                JButton gotophen=new JButton("          Modify Phenomena Type          ");
-                newexp.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                addexp.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                gotocooc.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                gotophen.setFont(new Font("SansSerif", Font.PLAIN, 15));
-                //hopLabel = new JLabel
+    JButton newexp=new JButton("            Reset Parameters            ");
+    //JButton addexp=new JButton("                Modify \u03B4                ");
+    //JButton gotocooc=new JButton("           Modify \u0194           ");
+    JButton addexp=new JButton("           Edit Energy T-hold, mA (\u03B4)           ");
+    JButton gotocooc=new JButton("           Edit Time-Period, S (\u0194)           ");
+    JButton gotophen=new JButton("          Modify Phenomena Type          ");
+    newexp.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    addexp.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    gotocooc.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    gotophen.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    //hopLabel = new JLabel
                 
-                //setting button locations properly
-                controlP.add(areaScrollPane);
-                controlP.add(fillers[0]);
-                controlP.add(newexp);
-                controlP.add(fillers[1]);
-                controlP.add(addexp);
-                controlP.add(fillers[2]);
-                controlP.add(gotocooc);
-                controlP.add(fillers[3]);
-                controlP.add(gotophen);
-                controlP.add(fillers[4]);
-                controlP.add(logs_scroll);
+    //setting button locations properly
+    controlP.add(areaScrollPane);
+    controlP.add(fillers[0]);
+    controlP.add(newexp);
+    controlP.add(fillers[1]);
+    controlP.add(addexp);
+    controlP.add(fillers[2]);
+    controlP.add(gotocooc);
+    controlP.add(fillers[3]);
+    controlP.add(gotophen);
+    controlP.add(fillers[4]);
+    controlP.add(logs_scroll);
                 
-                cards.add(controlP,second);
-                cards.add(add, third);
-                cards.add(cooc,forth);
-                cards.add(event, fifth);
+    cards.add(controlP,second);
+    cards.add(add, third);
+    cards.add(cooc,forth);
+    cards.add(event, fifth);
                 
-                this.add(cards);
-                CardLayout cl = (CardLayout)(cards.getLayout());
-                cl.show(cards,second);
-                //layer_add.setSelectedIndex(0);
+    this.add(cards);
+    CardLayout cl = (CardLayout)(cards.getLayout());
+    cl.show(cards,second);
+    //layer_add.setSelectedIndex(0);
                 
-                       /*add pre*/
+    /*add pre*/
                 
-        //edit energy threshold
-        add_pre.addActionListener(new ActionListener() {           //************* we add predicate here
-            public void actionPerformed(ActionEvent e) {
-                //print_name.setText("");
-                flag=false;
+    //edit energy threshold
+    add_pre.addActionListener(new ActionListener() {           //************* we add predicate here
+        public void actionPerformed(ActionEvent e) {
+          //print_name.setText("");
+          flag=false;
 
-                    //System.out.print(thre_temp);
-                    //System.out.print(area_temp);
-                    //System.out.println("area: "+area_temp+" threshold: "+thre_temp+" layer: "+layer_add.getSelectedIndex());
-                    //***************send temp out
-                    //
-                    int energy_temp = Integer.parseInt(threshold_add.getText());
-                    //Compute Rectangle Area from Energy Threshold
-                    // Not transmitting telosb = 2.5 mA
-                    // Transmitting telosb = 20 mA
-                    int k=(energy_temp/Constants.ENERGY_ACTIVE_MOTE);
-                    if (k%2 == 1 && k!=9 && k!=25){
-                        k++;
-                    }
-                    double area = (k * k * (Constants.AREA_HEIGHT-100)* (Constants.AREA_WIDTH-100)) / Constants.TOTAL_MOTES;
+          //System.out.print(thre_temp);
+          //System.out.print(area_temp);
+          //System.out.println("area: "+area_temp+" threshold: "+thre_temp+" layer: "+layer_add.getSelectedIndex());
+          //***************send temp out
+          //
+          int energy_temp = Integer.parseInt(threshold_add.getText());
+          //Compute Rectangle Area from Energy Threshold
+          // Not transmitting telosb = 2.5 mA
+          // Transmitting telosb = 20 mA
+          int k=(energy_temp/Constants.ENERGY_ACTIVE_MOTE);
+          if (k%2 == 1 && k!=9 && k!=25){
+            k++;
+          }
+          double area = (k * k * (Constants.AREA_HEIGHT-100)* (Constants.AREA_WIDTH-100)) / Constants.TOTAL_MOTES;
                     
-                    short a=1, b=1;
-                    if(k==1 || k==4 || k==9 || k==16 || k==25 || k==36){
-                        a=(short) Math.sqrt(k);
-                        b=a;
-                    }
-                    if(k==2) {a=2; b=1;}
-                    if(k==6) {a=3; b=2;}
-                    if(k==8) {a=4; b=2;}
-                    if(k==10) {a=5; b=2;}
-                    if(k==12) {a=4; b=3;}
-                    if(k==14) {a=6; b=2;}
-                    if(k==18) {a=6; b=3;}
-                    if(k==20 || k==2) {a=5; b =4;}
-                    if(k==24 || k==26 || k==28) {a=6; b=4;}
-                    if(k==30 || k==32 || k==34) {a=6; b=5;}
-                    if(k==36) {a=6; b=6;}
-                    ////////////////////////////////////////////////////////////////////////////////////////////
+          short a=1, b=1;
+          if(k==1 || k==4 || k==9 || k==16 || k==25 || k==36){
+            a=(short) Math.sqrt(k);
+            b=a;
+          }
+          if(k==2) {a=2; b=1;}
+          if(k==6) {a=3; b=2;}
+          if(k==8) {a=4; b=2;}
+          if(k==10) {a=5; b=2;}
+          if(k==12) {a=4; b=3;}
+          if(k==14) {a=6; b=2;}
+          if(k==18) {a=6; b=3;}
+          if(k==20 || k==2) {a=5; b =4;}
+          if(k==24 || k==26 || k==28) {a=6; b=4;}
+          if(k==30 || k==32 || k==34) {a=6; b=5;}
+          if(k==36) {a=6; b=6;}
+          ////////////////////////////////////////////////////////////////////////////////////////////
                     
-                    short x = (short)Math.sqrt(area/ (a*a*b*b));
-                    short rheight = (short) (b*x);  ///rectangle size
-                    short rwidth = (short) (a*x);
+          short x = (short)Math.sqrt(area/ (a*a*b*b));
+          short rheight = (short) (b*x);  ///rectangle size
+          short rwidth = (short) (a*x);
                     
-                    if(rwidth % 2 == 1) rwidth+=1;
-                    if(rheight % 2 == 1) rheight+=1;
+          if(rwidth % 2 == 1) rwidth+=1;
+          if(rheight % 2 == 1) rheight+=1;
                     
-                    SunSpotHostApplication.coverage = new Area(rwidth, rheight);
-                    SunSpotHostApplication.send_setup();
+          SunSpotHostApplication.coverage = new Area(rwidth, rheight);
+          SunSpotHostApplication.send_setup();
                     
-                    String prenew=" ";
+          String prenew=" ";
 
-                    predicate_show.append(prenew);
-                    CardLayout cl = (CardLayout)(cards.getLayout());
-                    cl.show(cards,second);
-                    //layer_add.setSelectedIndex(0);
+          predicate_show.append(prenew);
+          CardLayout cl = (CardLayout)(cards.getLayout());
+          cl.show(cards,second);
+          //layer_add.setSelectedIndex(0);
 
-                    //SunSpotHostApplication.task.go();
-            }
-        });
+          //SunSpotHostApplication.task.go();
+        }
+      });
         
-               /* add coocurence */
-                /// Time-period
-        add_cooc.addActionListener(new ActionListener() {           //************* we add predicate here
-            public void actionPerformed(ActionEvent e) {
+    /* add coocurence */
+    /// Time-period
+    add_cooc.addActionListener(new ActionListener() {           //************* we add predicate here
+        public void actionPerformed(ActionEvent e) {
                        
-                    SunSpotHostApplication.time_period = Short.parseShort(area_field_add.getText());
-                    SunSpotHostApplication.send_setup();
-                    String prenew="Put Something Good";
-
-                    predicate_show.append(prenew);
-                    CardLayout cl = (CardLayout)(cards.getLayout());
-                    cl.show(cards,second);
-            }
-        });
+          SunSpotHostApplication.time_period = Short.parseShort(area_field_add.getText());
+          SunSpotHostApplication.send_setup();
+          // String prenew="Put Something Good";
+          // predicate_show.append(prenew); // write
+          CardLayout cl = (CardLayout)(cards.getLayout());
+          cl.show(cards,second);
+        }
+      });
         
-          ////  event type //phenomena
-        add_event.addActionListener(new ActionListener() {           //************* we add predicate here
-            public void actionPerformed(ActionEvent e) {
-                //print_name.setText("");                    
-                    String prenew="Put Something Good";
+    ////  event type //phenomena
+    add_event.addActionListener(new ActionListener() {           //************* we add predicate here
+        public void actionPerformed(ActionEvent e) {
+          //print_name.setText("");                    
+          //String prenew="Put Something Good";
+          // predicate_show.append(prenew);
+          SunSpotHostApplication.current_phenomena = (short) (layer_add.getSelectedIndex() + 2);
+          SunSpotHostApplication.send_setup();
                     
-                    SunSpotHostApplication.current_phenomena = (short) (layer_add.getSelectedIndex() + 2);
-                    SunSpotHostApplication.send_setup();
-                    predicate_show.append(prenew);
-                    CardLayout cl = (CardLayout)(cards.getLayout());
-                    cl.show(cards,second);
-                    layer_add.setSelectedIndex(0);
-            }
-        });
+          CardLayout cl = (CardLayout)(cards.getLayout());
+          cl.show(cards,second);
+          layer_add.setSelectedIndex(0);
+        }
+      });
         
         
-        /*add new exp */
-        addexp.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //print_name.setText("");
-                CardLayout cl = (CardLayout) (cards.getLayout());
-                cl.show(cards, third);
-                //SunSpotHostApplication.task.stop();
-            }
-        });
+    /*add new exp */
+    addexp.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          //print_name.setText("");
+          CardLayout cl = (CardLayout) (cards.getLayout());
+          cl.show(cards, third);
+          //SunSpotHostApplication.task.stop();
+        }
+      });
         
                 
-        /* go back, RESET*/
-        newexp.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //print_name.setText("");
-                predicate_show.setText("");
-                SunSpotHostApplication.BruteHC=0;
-                SunSpotHostApplication.OurHC=0;
-                SunSpotHostApplication.task.stop();
-                logs.setText("");
+    /* go back, RESET*/
+    newexp.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          //print_name.setText("");
+          predicate_show.setText("");
+          SunSpotHostApplication.BruteHC=0;
+          SunSpotHostApplication.OurHC=0;
+          SunSpotHostApplication.task.stop();
+          logs.setText("");
                 
-                SunSpotHostApplication.reset_telosb();
-                //clearing shape_receieve in reset click
-                  SunSpotHostApplication.task.stop();
-                  SunSpotHostApplication.frame.shapePanel.repaint();
+          SunSpotHostApplication.reset_telosb();
+          //clearing shape_receieve in reset click
+          SunSpotHostApplication.task.stop();
+          SunSpotHostApplication.frame.shapePanel.repaint();
                   
-                  if (action != null && actionEnabled) action.run();
+          if (action != null && actionEnabled) action.run();
 
-            }
-        });
+        }
+      });
         
-                /* goto coocurence page*/
-        gotocooc.addActionListener(new ActionListener() {           //************* we add predicate here
-            public void actionPerformed(ActionEvent e) {
-                //print_name.setText("");
+    /* goto coocurence page*/
+    gotocooc.addActionListener(new ActionListener() {           //************* we add predicate here
+        public void actionPerformed(ActionEvent e) {
+          //print_name.setText("");
 
-                    CardLayout cl = (CardLayout)(cards.getLayout());
-                    cl.show(cards,forth);
-                //SunSpotHostApplication.task.stop();
-            }
-        });
+          CardLayout cl = (CardLayout)(cards.getLayout());
+          cl.show(cards,forth);
+          //SunSpotHostApplication.task.stop();
+        }
+      });
 
-        gotophen.addActionListener(new ActionListener() {           //************* we add predicate here
-            public void actionPerformed(ActionEvent e) {
-                //print_name.setText("");
-                flag=false;
-                CardLayout cl = (CardLayout)(cards.getLayout());
-                cl.show(cards,fifth);
-                //SunSpotHostApplication.task.stop();
-            }
-        });
+    gotophen.addActionListener(new ActionListener() {           //************* we add predicate here
+        public void actionPerformed(ActionEvent e) {
+          //print_name.setText("");
+          flag=false;
+          CardLayout cl = (CardLayout)(cards.getLayout());
+          cl.show(cards,fifth);
+          //SunSpotHostApplication.task.stop();
+        }
+      });
         
 
 
 		
-                addMouseListener(new MouseAdapter() {
-			/*@Override
-			public void mouseEntered(MouseEvent e) {
-				hover = true;
-				if (actionEnabled) showBorder();
-			}
+    addMouseListener(new MouseAdapter() {
+        /*@Override
+          public void mouseEntered(MouseEvent e) {
+          hover = true;
+          if (actionEnabled) showBorder();
+          }
 
-			@Override
-			public void mouseExited(MouseEvent e) {
-				hover = false;
-				hideBorder();
-			}*
+          @Override
+          public void mouseExited(MouseEvent e) {
+          hover = false;
+          hideBorder();
+          }*
 
-			/*@Override
-			public void mouseReleased(MouseEvent e) {
-				if (action != null && actionEnabled) action.run();
-			}*/
-		});
+          /*@Override
+          public void mouseReleased(MouseEvent e) {
+          if (action != null && actionEnabled) action.run();
+          }*/
+      });
 	}
 
 	public void setAction(Runnable action) {this.action = action;}

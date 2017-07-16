@@ -102,9 +102,12 @@ public class SunSpotHostApplication {
            do {
               thread_message("Waiting for the data");
               pck_rx = rx_broadcast.receive();
+              // receive the centralized data from sensors
            } while(pck_rx == null);
 
-           thread_message("Rx type: " + pck_rx.get_pck_type());           
+           thread_message("Rx type: " + pck_rx.get_pck_type());     
+           
+           // save the data based on the sensor id and the data type
            if((pck_rx.get_pck_type() == 8) || (pck_rx.get_pck_type() == 9))
            {
              short node_index = (short) pck_rx.get_node_index();
@@ -118,6 +121,9 @@ public class SunSpotHostApplication {
                      double temp_c = raw_temp_to_c(pck_rx.get_payload()[0]);
                      short farenheit = (short) (((9.0*temp_c)/5.0)+32.0);
                      currentValues.set(node_index, farenheit);
+                     thread_message("node i: " + node_index + 
+                                    " f local: " + farenheit + 
+                                    " f saved: " + currentValues.elementAt(node_index));
                  } else 
                      currentValues.set(node_index, pck_rx.get_payload()[0]);
              }  
@@ -128,7 +134,7 @@ public class SunSpotHostApplication {
      }.start();
    }
 
-            // Objective: a function for spots to send various type of messages
+       // Objective: a function for spots to send various type of messages
        // @type: int type of packages
        // @values_last_index: int the last index of the data in the values
        // @values: int payload
@@ -197,7 +203,7 @@ public class SunSpotHostApplication {
         coverage = new Area((short)80, (short)80);
         short def_val=40;
         if(current_phenomena == Constants.TEMP_PHENOMENA){
-            def_val=75;
+            def_val=75;  // fine with the gui bug
         }
         //setting up the sliding GUI
         for(int i=0; i<Constants.TOTAL_MOTES;i++){
@@ -231,6 +237,7 @@ public class SunSpotHostApplication {
       arr[2]= current_phenomena; // waiting for the sensor type
       arr[3]= coverage.width;
       arr[4]= coverage.height;
+      // send the setup package to other nodes
       sendMessage(15, 4, arr, Constants.T1205_ID);
       System.out.println("Sent the setup");
     }
