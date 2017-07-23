@@ -175,8 +175,9 @@ public class Tiny_connection
       String last4addr = last_4addr(dst_addr);
       System.out.println("\n\n\nReceive a package from " + dst_addr + " last4addr: " + last4addr);
       
-      
       int node_index = Constants.getNodeId(last_4addr(dst_addr));
+      System.err.println(" Node index: " + node_index + " addr: " + dst_addr);
+      
       if(node_index == -1)
       {
         System.out.println(" Node Index: " + node_index + ", not in the network.");

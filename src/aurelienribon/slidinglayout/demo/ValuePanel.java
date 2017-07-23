@@ -132,13 +132,14 @@ public class ValuePanel extends JPanel {
     //initial multipliers
     X_multiplier = w / (double) Constants.MAX_X;
     Y_multiplier = h  / (double) Constants.MAX_Y;
+    
     double radius = (0.023*w)+(0.023*h);
     int FontSize = (int)(0.0075*w + 0.0075*h);
 
     gg.setStroke(new BasicStroke(3));
     gg.setFont(new Font("SansSerif", Font.BOLD, FontSize));
                 
-    int showValues[]=new int[Constants.TOTAL_MOTES];
+    int showValues[]=new int[Constants.MAX_ID];
     gg.setPaint(new Color(128,0,128,255));
     if(SunSpotHostApplication.current_phenomena==Constants.LIGHT_PHENOMENA){
       gg.drawString("Light",(int)(radius/2), (int)(radius/2));
@@ -148,41 +149,48 @@ public class ValuePanel extends JPanel {
     }
                 
     for(int i=0; i<Constants.TOTAL_MOTES; i++){
-      showValues[i]=SunSpotHostApplication.currentValues.get(i);
+      int node_id = Constants.getNodeId(i);
+      showValues[node_id]=SunSpotHostApplication.currentValues.get(node_id);
     }
                 
     for(int i=0; i<Constants.TOTAL_MOTES; i++){
-      Point p = Constants.getNodeLocation((short)i);
+      int node_id = Constants.getNodeId(i);
+      // System.out.print("Value Panel i: " + i + " node_id: " + node_id);
+      
+      Point p = Constants.getNodeLocation((short)node_id);
+      System.out.println("node location at x: " + p.x + " y: " + p.y);
       int x = (short)(p.x * X_multiplier);
       int y = (short)(p.y * Y_multiplier);
-                    
+      
+      // System.out.println("drawing nodes at x: " + x + " y: " + y);
+      
       Color color = Color.YELLOW;
       int alpha = 100;
                     
-      alpha = (int)((showValues[i]/100.00) * 255.0);
+      alpha = (int)((showValues[node_id]/100.00) * 255.0);
       if(alpha>255){
         alpha=255;
       }
                     
-      if(alpha < 0)
-        alpha=0;
-                    
+      if(alpha <= 0) {
+        alpha=30;
+      }
       // = (SunSpotHostApplication.currentValues.get(i))
       Color colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
       gg.setPaint(colTransparent);
-      if(Constants.isTelos((short)i)){
+      if(Constants.isTelos((short)node_id)){
         gg.fillOval((int)(x-(radius/2)), (int)(y-(radius/2)),(int)radius, (int)radius);
       }
       else{
         gg.fillRect((int)(x-(radius/2)), (int)(y-(radius/2)),(int)(radius), (int)(radius));
       }
       gg.setPaint(new Color(0,0,0,255));
-      gg.drawString(Integer.toString(showValues[i]), x-(int)(radius/8), y+(int)(radius/20));
+      gg.drawString(Integer.toString(showValues[node_id]), x-(int)(radius/8), y+(int)(radius/20));
     }
                 
     gg.setPaint(new Color(128,0,128,255));
     gg.setFont(new Font("SansSerif", Font.BOLD, FontSize));
-    gg.drawString("HopCount (Ours/Centralized): "+(int)(1.5*SunSpotHostApplication.OurHC)+"/"+(int)(1.5*SunSpotHostApplication.BruteHC),(w/2)-(int)(1.5*radius), (int)(radius/2)); 
+    gg.drawString("vp HopCount (Ours/Centralized): "+(int)(1.5*SunSpotHostApplication.OurHC)+"/"+(int)(1.5*SunSpotHostApplication.BruteHC),(w/2)-(int)(1.5*radius), (int)(radius/2)); 
   }
 
   // -------------------------------------------------------------------------

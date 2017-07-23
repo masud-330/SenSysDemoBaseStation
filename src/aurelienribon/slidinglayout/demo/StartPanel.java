@@ -305,11 +305,13 @@ public class StartPanel extends javax.swing.JPanel {
       errorlabel="empty";
 
     }
+    
     if(jtfTime.getText().equals(""))
     {
       flag=true;
       errorlabel="empty";
     }
+    
     try{
       energy_temp = Integer.parseInt(jtfEnergy.getText());
       jtfEnergy.setText("");
@@ -319,6 +321,7 @@ public class StartPanel extends javax.swing.JPanel {
       flag=true;
       errorlabel="nfe";
     }
+    
     try{
       time_temp = Integer.parseInt(jtfTime.getText());
       jtfTime.setText("");
@@ -355,15 +358,22 @@ public class StartPanel extends javax.swing.JPanel {
       // Not transmitting telosb = 3 mA (inactive)
       // Transmitting telosb = 25 mA (active)
       int k=(energy_temp/Constants.ENERGY_ACTIVE_MOTE); // number of nodes will be covered.
+      
+      // set the range of the k from 0 - 36.
+      k = Math.max(1, k);
+      k = Math.min(k, 36);
+      System.out.println("energy_temp: " + energy_temp + " k: " + k);
+
       if (k%2 == 1 && k!=9 && k!=25){
         k++;
       } // number of nodes should be even.
-      double area = (k * k * (Constants.AREA_HEIGHT-100)* (Constants.AREA_WIDTH-100)) / Constants.TOTAL_MOTES;
-                    
+      
+      double area = (k * k * (Constants.AREA_HEIGHT-100)* (Constants.AREA_WIDTH-100)) / Constants.MAX_ID;
+      
       // hard code the shape of the rectangle and the number of nodes 
-      // in width and length
-      short a=1, b=1; // a = length, b = width
-      if(k==1 || k==4 || k==9 || k==16 || k==25 || k==36){
+      // in width and ratio_length
+      short a=1, b=1; // a = ratio_length, b = width
+      if(k==1 || k==4 || k==9 || k==16 || k==25){
         a=(short) Math.sqrt(k);
         b=a;
       }
@@ -380,19 +390,19 @@ public class StartPanel extends javax.swing.JPanel {
       if(k==30 || k==32 || k==34) {a=6; b=5;}
       if(k==36) {a=6; b=6;}
       ////////////////////////////////////////////////////////////////////////////////////////////
-                    
       short x = (short)Math.sqrt(area/ (a*a*b*b));
       short rheight = (short) (b*x);  ///rectangle size
       short rwidth = (short) (a*x);
-                    
+      
       if(rwidth % 2 == 1) rwidth+=1;
       if(rheight % 2 == 1) rheight+=1;
-                    
+      System.out.println("a: " + a + " b: " + b);      
+      
       SunSpotHostApplication.coverage = new Area(rwidth, rheight);
       SunSpotHostApplication.enclosed_objects_no = (short)k;
       SunSpotHostApplication.time_period = (short) time_temp;
       System.out.println(k+" "+rwidth +"---------"+rheight);
-                    
+      
       //TODO: Copy Top's code here directly to send the Setup packet!
       SunSpotHostApplication.current_phenomena = (short)(jcomboType.getSelectedIndex()+2);
       SunSpotHostApplication.send_setup();

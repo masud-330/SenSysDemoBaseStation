@@ -53,23 +53,23 @@ public class ThePanel extends JPanel {
 		}
 
 		addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				hover = true;
-				if (actionEnabled) showBorder();
-			}
+        @Override
+        public void mouseEntered(MouseEvent e) {
+          hover = true;
+          if (actionEnabled) showBorder();
+        }
 
-			@Override
-			public void mouseExited(MouseEvent e) {
-				hover = false;
-				hideBorder();
-			}
+        @Override
+        public void mouseExited(MouseEvent e) {
+          hover = false;
+          hideBorder();
+        }
 
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if (action != null && actionEnabled) action.run();
-			}
-		});
+        @Override
+        public void mouseReleased(MouseEvent e) {
+          if (action != null && actionEnabled) action.run();
+        }
+      });
 	}
 
 	public void setAction(Runnable action) {this.action = action;}

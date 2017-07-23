@@ -39,35 +39,35 @@ public class ShapePanel extends JPanel {
 	private boolean actionEnabled = true;
 	private boolean hover = false;
 	private int borderThickness = 2;
-        private double X_multiplier;
-        private double Y_multiplier;
+  private double X_multiplier;
+  private double Y_multiplier;
 
 	public ShapePanel(Dimension d) {
 		//setBackground(BG_COLOR);
 		setLayout(new BorderLayout());
                 
-                //initial multipliers
-                X_multiplier = d.width / (double) Constants.MAX_X;
-                Y_multiplier = d.height / (double) Constants.MAX_Y;
-                
+    //initial multipliers
+    X_multiplier = d.width / (double) Constants.MAX_X;
+    Y_multiplier = d.height / (double) Constants.MAX_Y;
+    System.out.println("ShapePanel X_mul: " + X_multiplier + " Y_mul: " + Y_multiplier);
 		addMouseListener(new MouseAdapter() {
-			/*@Override
-			public void mouseEntered(MouseEvent e) {
-				hover = true;
-				if (actionEnabled) showBorder();
-			}
+        /*@Override
+          public void mouseEntered(MouseEvent e) {
+          hover = true;
+          if (actionEnabled) showBorder();
+          }
 
-			@Override
-			public void mouseExited(MouseEvent e) {
-				hover = false;
-				hideBorder();
-			}*/
+          @Override
+          public void mouseExited(MouseEvent e) {
+          hover = false;
+          hideBorder();
+          }*/
 
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if (action != null && actionEnabled) action.run();
-			}
-		});
+        @Override
+        public void mouseReleased(MouseEvent e) {
+          if (action != null && actionEnabled) action.run();
+        }
+      });
 	}
 
 	public void setAction(Runnable action) {this.action = action;}
@@ -91,86 +91,87 @@ public class ShapePanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-            try{  
-		Graphics2D gg = (Graphics2D) g;
+    try{  
+      Graphics2D gg = (Graphics2D) g;
 
-		int w = getWidth();
-		int h = getHeight();
-                //initial multipliers
-                X_multiplier = w / (double) Constants.MAX_X;
-                Y_multiplier = h  / (double) Constants.MAX_Y;
-
-                double radius = (0.023*w)+(0.023*h);
+      int w = getWidth();
+      int h = getHeight();
+      //initial multipliers
+      X_multiplier = w / (double) Constants.MAX_X;
+      Y_multiplier = h / (double) Constants.MAX_Y;
+      // System.out.println("ShapePanel: PaintCom: X_mul: " + X_multiplier + " Y_mul: " + Y_multiplier);
+      
+      double radius = (0.023*w)+(0.023*h);
                 
-                gg.setStroke(new BasicStroke(3));
-                Color color = Color.YELLOW;
-                Color colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
-                gg.setPaint(colTransparent);
+      gg.setStroke(new BasicStroke(3));
+      Color color = Color.YELLOW;
+      Color colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
+      gg.setPaint(colTransparent);
                 
-                int x1=0, x2=0, y1=0, y2=0;
-                //draw rectangle here
-                if (SunSpotHostApplication.Opt_Window != null){
-                        x1 = Math.max(0, SunSpotHostApplication.Opt_Window.l - SunSpotHostApplication.coverage.height/2);
-                        y1 = Math.max(0, SunSpotHostApplication.Opt_Window.h - SunSpotHostApplication.coverage.width/2);
-                        x2 = Math.min(SunSpotHostApplication.area.height, SunSpotHostApplication.Opt_Window.l + SunSpotHostApplication.coverage.height/2);
-                        y2 = Math.min(SunSpotHostApplication.area.width, SunSpotHostApplication.Opt_Window.h + SunSpotHostApplication.coverage.width/2);
+      int x1=0, x2=0, y1=0, y2=0;
+      //draw rectangle here
+      if (SunSpotHostApplication.Opt_Window != null) {
+        x1 = Math.max(0, SunSpotHostApplication.Opt_Window.l - SunSpotHostApplication.coverage.height/2);
+        y1 = Math.max(0, SunSpotHostApplication.Opt_Window.h - SunSpotHostApplication.coverage.width/2);
+        x2 = Math.min(SunSpotHostApplication.area.height, SunSpotHostApplication.Opt_Window.l + SunSpotHostApplication.coverage.height/2);
+        y2 = Math.min(SunSpotHostApplication.area.width, SunSpotHostApplication.Opt_Window.h + SunSpotHostApplication.coverage.width/2);
                         
-                        int g_x1 = (int)((x1 * X_multiplier));
-                        int g_x2 = (int)((x2 * X_multiplier));
-                        int g_y1 = (int)((y1 * Y_multiplier));
-                        int g_y2 = (int)((y2 * Y_multiplier));
+        int g_x1 = (int)((x1 * X_multiplier));
+        int g_x2 = (int)((x2 * X_multiplier));
+        int g_y1 = (int)((y1 * Y_multiplier));
+        int g_y2 = (int)((y2 * Y_multiplier));
                         
-                        gg.fill3DRect(g_x1, g_y1, (g_x2-g_x1), (g_y2-g_y1), true);
+        gg.fill3DRect(g_x1, g_y1, (g_x2-g_x1), (g_y2-g_y1), true);
                         
-                        color = Color.GREEN;
-                        colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
-                        gg.setPaint(colTransparent);
+        color = Color.BLUE;
+        colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
+        gg.setPaint(colTransparent);
                         
-                        short i=0;
-                        for(Object obj :  SunSpotHostApplication.currentObjects){
-                            if(Constants.isWithin(new Rectangle((short)x1, (short)y1, (short)x2, (short)y2,(short)40), obj)){
-                                int x = (short)(obj.x * X_multiplier);
-                                int y = (short)(obj.y * Y_multiplier);
-                                if(Constants.isTelos(i)){
-                                    gg.fillOval((int)(x-(radius/2)), (int)(y-(radius/2)),(int)(radius), (int)(radius));
-                                }
-                                else{
-                                    gg.fillRect((int)(x-(radius/2)), (int)(y-(radius/2)),(int)(radius), (int)(radius));
-                                }
-                            }
-                            i++;
-                        }
-                }
+        for(int k = 0; k < Constants.TOTAL_MOTES; k++) {
+          int node_id = Constants.getNodeId(k);
+          Object obj = SunSpotHostApplication.currentObjects.get(node_id);
+          if(Constants.isWithin(new Rectangle((short)x1, (short)y1, (short)x2, (short)y2,(short)40), obj)){
+            int x = (short)(obj.x * X_multiplier);
+            int y = (short)(obj.y * Y_multiplier);
+            if(Constants.isTelos((short) node_id)) {
+              gg.fillOval((int)(x-(radius/2)), (int)(y-(radius/2)),(int)(radius), (int)(radius));
+            }
+            else{
+              gg.fillRect((int)(x-(radius/2)), (int)(y-(radius/2)),(int)(radius), (int)(radius));
+            }
+          }
+        }
+      }
                 
-                gg.setPaint(new Color(0,0,0,255));
-                color = Color.BLACK;
-                colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), 255);
-                gg.setPaint(colTransparent);
-                for(int i=0; i<Constants.TOTAL_MOTES; i++){
-                    Point p = Constants.getNodeLocation((short)i);
-                    if(Constants.isWithin(new Rectangle((short)x1, (short)y1, (short)x2, (short)y2,(short)40), p)){
-                        continue;
-                    }
-                    int x = (short)(p.x * X_multiplier);
-                    int y = (short)(p.y * Y_multiplier);
+      gg.setPaint(new Color(0,0,0,255));
+      color = Color.BLACK; // edge of the objects
+      colTransparent = new Color(color.getRed(), color.getGreen(), color.getBlue(), 255);
+      gg.setPaint(colTransparent);
+      for(int i=0; i<Constants.TOTAL_MOTES; i++){
+        int node_id = Constants.getNodeId(i);
+        Point p = Constants.getNodeLocation((short)node_id);
+        if(Constants.isWithin(new Rectangle((short)x1, (short)y1, (short)x2, (short)y2,(short)40), p)){
+          continue;
+        }
+        int x = (short)(p.x * X_multiplier);
+        int y = (short)(p.y * Y_multiplier);
                     
-                    if(Constants.isTelos((short)i)){
-                        gg.drawOval((int)(x-(radius/2)), (int)(y-(radius/2)),(int)radius, (int)radius);
-                    }
-                    else{
-                        gg.drawRect((int)(x-(radius/2)), (int)(y-(radius/2)),(int)(radius), (int)(radius));
-                    }
-                }
-                gg.setPaint(new Color(128,0,128,255));
-                int FontSize = (int)(0.0075*w + 0.0075*h);
-                gg.setFont(new Font("SansSerif", Font.BOLD, FontSize));
-                gg.drawString("HopCount (Ours/Centralized): "+(int)(1.5*SunSpotHostApplication.OurHC)+"/"+(int)(1.5*SunSpotHostApplication.BruteHC),(w/2)-(int)(1.5*radius), (int)(radius/2)); 
+        if(Constants.isTelos((short)node_id)){
+          gg.drawOval((int)(x-(radius/2)), (int)(y-(radius/2)),(int)radius, (int)radius);
+        }
+        else{
+          gg.drawRect((int)(x-(radius/2)), (int)(y-(radius/2)),(int)(radius), (int)(radius));
+        }
+      }
+      gg.setPaint(new Color(128,0,128,255));
+      int FontSize = (int)(0.0075*w + 0.0075*h);
+      gg.setFont(new Font("SansSerif", Font.BOLD, FontSize));
+      gg.drawString("sp HopCount (Ours/Centralized): "+(int)(1.5*SunSpotHostApplication.OurHC)+"/"+(int)(1.5*SunSpotHostApplication.BruteHC),(w/2)-(int)(1.5*radius), (int)(radius/2)); 
             
-            }
-            catch(Exception ex){
-                System.out.println(ex.getMessage());
-            }
-
+    }
+    catch(Exception ex){
+      System.out.println(ex.getMessage());
+    }
 	}
 
 	// -------------------------------------------------------------------------
