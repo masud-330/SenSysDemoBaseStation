@@ -128,7 +128,7 @@ public class StartPanel extends javax.swing.JPanel {
                 
     locy+=2*jlabelEnergy.getHeight();
     jlabelTime.setLocation(locx, locy);
-    jlabelTime.setText("Time-Period, S (\u0194)");
+    jlabelTime.setText("Time-Period, Sec (\u0194)");
                 
     locy+=jlabelEnergy.getHeight();
     jtfTime.setLocation(locx, locy);
@@ -408,7 +408,7 @@ public class StartPanel extends javax.swing.JPanel {
       SunSpotHostApplication.send_setup();
       //////////////////////////DONE/////////////////////////////////////////////
                     
-      String prenew="Energy Threshold, \u03B4 = "+Integer.toString(energy_temp)+" mA.\n"+"Time-Period, \u0194 = "+Integer.toString(time_temp)+" S.\n"
+      String prenew="Energy Threshold, \u03B4 = "+Integer.toString(energy_temp)+" mA.\n"+"Time-Period, \u0194 = "+Integer.toString(time_temp)+" Sec.\n"
         +"Phenomena Type = "+SunSpotHostApplication.layer_type[jcomboType.getSelectedIndex()]+". \n"+"Rectangle Size = ("+rwidth+","+rheight+"). \n"
         +"No of Active Nodes = "+k+". \n";
                 

@@ -127,6 +127,10 @@ public class SunSpotHostApplication {
             }  
           } else if(pck_rx.get_pck_type() == 7)
             Opt_Window = pck_rx.get_window();
+            OurHC += Constants.DIS_HOP_COUNT;
+            BruteHC += Constants.CEN_HOP_COUNT;
+            System.out.println(OurHC+" "+BruteHC);
+          
         }
       }
     }.start();
